@@ -1,0 +1,26 @@
+# ==== Python/Django ====
+*.pyc
+__pycache__/
+*.sqlite3
+*.log
+*.pot
+*.mo
+*.pyo
+*.pyd
+venv/
+
+
+# ==== Java/Spring Boot ====
+target/
+*.class
+*.jar
+*.war
+*.log
+
+# ==== IDEs ====
+.idea/
+*.iml
+
+# ==== Sistema ====
+.DS_Store
+Thumbs.db

@@ -1,0 +1,233 @@
+
+CREATE TABLE Sucursal (
+    id_sucursal INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    direccion VARCHAR(200),
+    comuna VARCHAR(100),
+    region VARCHAR(100)
+);
+
+CREATE TABLE Rol (
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) -- Administrador, Vendedor, Bodeguero, Contador
+);
+
+CREATE TABLE Empleado (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    rut VARCHAR(12),
+    nombre VARCHAR(100),
+    correo VARCHAR(100),
+    telefono VARCHAR(20),
+    id_sucursal INT,
+    id_rol INT,
+    FOREIGN KEY (id_sucursal) REFERENCES Sucursal(id_sucursal),
+    FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
+);
+
+CREATE TABLE Cliente (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    rut VARCHAR(12),
+    nombre VARCHAR(100),
+    correo VARCHAR(100),
+    direccion VARCHAR(200),
+    telefono VARCHAR(20),
+    recibe_ofertas BOOLEAN
+);
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
+    password VARCHAR(255),
+    tipo_usuario ENUM('cliente', 'empleado'),
+    id_cliente INT,
+    id_empleado INT,
+    cambio_password BOOLEAN,
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES Empleado(id_empleado)
+);
+
+CREATE TABLE Marca (
+    id_marca INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100)
+);
+
+CREATE TABLE Producto (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    precio DECIMAL(10,2),
+    id_marca INT,
+    FOREIGN KEY (id_marca) REFERENCES Marca(id_marca)
+);
+
+CREATE TABLE Inventario (
+    id_inventario INT AUTO_INCREMENT PRIMARY KEY,
+    id_sucursal INT,
+    id_producto INT,
+    stock INT,
+    FOREIGN KEY (id_sucursal) REFERENCES Sucursal(id_sucursal),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+
+CREATE TABLE Pedido (
+    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT,
+    fecha DATETIME,
+    estado ENUM('pendiente', 'aprobado', 'rechazado', 'despachado'),
+    metodo_pago ENUM('debito', 'credito', 'transferencia', 'paypal'),
+    retiro_en_tienda BOOLEAN,
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
+);
+
+CREATE TABLE DetallePedido (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    id_producto INT,
+    cantidad INT,
+    precio_unitario DECIMAL(10,2),
+    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+
+CREATE TABLE Pago (
+    id_pago INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    confirmado_por INT,
+    fecha_pago DATETIME,
+    confirmado BOOLEAN,
+    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
+    FOREIGN KEY (confirmado_por) REFERENCES Empleado(id_empleado)
+);
+
+CREATE TABLE Despacho (
+    id_despacho INT AUTO_INCREMENT PRIMARY KEY,
+    id_pedido INT,
+    encargado_despacho INT,
+    fecha_despacho DATETIME,
+    direccion_entrega VARCHAR(200),
+    entregado BOOLEAN,
+    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
+    FOREIGN KEY (encargado_despacho) REFERENCES Empleado(id_empleado)
+);
+
+-- script poblar tablas
+-- Tabla Sucursal
+INSERT INTO Sucursal (nombre, direccion, comuna, region) VALUES
+('Sucursal Santiago Centro', 'Av. Libertador 1234', 'Santiago', 'Metropolitana'),
+('Sucursal Maipú', 'Calle Los Héroes 567', 'Maipú', 'Metropolitana'),
+('Sucursal La Florida', 'Av. Vicuña Mackenna 8000', 'La Florida', 'Metropolitana'),
+('Sucursal Las Condes', 'Av. Apoquindo 4500', 'Las Condes', 'Metropolitana'),
+('Sucursal Valparaíso', 'Calle Esmeralda 90', 'Valparaíso', 'Valparaíso'),
+('Sucursal Viña del Mar', 'Av. Libertad 2200', 'Viña del Mar', 'Valparaíso'),
+('Sucursal Rancagua', 'Av. Independencia 300', 'Rancagua', 'O’Higgins'),
+('Sucursal Concepción', 'Calle Carrera 100', 'Concepción', 'Biobío'),
+('Sucursal Temuco', 'Av. Alemania 1400', 'Temuco', 'La Araucanía'),
+('Sucursal Antofagasta', 'Calle Prat 250', 'Antofagasta', 'Antofagasta');
+
+-- Tabla Rol
+INSERT INTO Rol (nombre) VALUES
+('Administrador'), ('Vendedor'), ('Bodeguero'), ('Contador'),
+('Vendedor'), ('Bodeguero'), ('Contador'), ('Administrador'),
+('Vendedor'), ('Bodeguero');
+
+-- Tabla Empleado
+INSERT INTO Empleado (rut, nombre, correo, telefono, id_sucursal, id_rol) VALUES
+('12345678-9', 'Ana Pérez', 'ana@ferremas.cl', '912345678', 1, 1),
+('22345678-9', 'Luis Soto', 'luis@ferremas.cl', '922345678', 1, 2),
+('32345678-9', 'Claudia Díaz', 'claudia@ferremas.cl', '932345678', 2, 3),
+('42345678-9', 'Carlos Mena', 'carlos@ferremas.cl', '942345678', 2, 4),
+('52345678-9', 'María López', 'maria@ferremas.cl', '952345678', 3, 2),
+('62345678-9', 'Pedro Rojas', 'pedro@ferremas.cl', '962345678', 3, 3),
+('72345678-9', 'Javiera Núñez', 'javiera@ferremas.cl', '972345678', 4, 4),
+('82345678-9', 'Tomás Reyes', 'tomas@ferremas.cl', '982345678', 5, 1),
+('92345678-9', 'Camila Torres', 'camila@ferremas.cl', '992345678', 6, 2),
+('10345678-9', 'Rodrigo Fuentes', 'rodrigo@ferremas.cl', '902345678', 6, 3);
+
+-- Tabla Cliente
+INSERT INTO Cliente (rut, nombre, correo, direccion, telefono, recibe_ofertas) VALUES
+('11111111-1', 'Juan Pérez', 'juan@gmail.com', 'Calle Falsa 123', '987654321', TRUE),
+('22222222-2', 'Elena Gómez', 'elena@gmail.com', 'Calle Real 456', '987654322', FALSE),
+('33333333-3', 'Mario Ruiz', 'mario@gmail.com', 'Av. Siempre Viva 789', '987654323', TRUE),
+('44444444-4', 'Laura Morales', 'laura@gmail.com', 'Pasaje Las Rosas 321', '987654324', TRUE),
+('55555555-5', 'Diego Espinoza', 'diego@gmail.com', 'Camino del Sol 555', '987654325', FALSE),
+('66666666-6', 'Andrea Fuentes', 'andrea@gmail.com', 'Callejón del Rey 33', '987654326', TRUE),
+('77777777-7', 'Carlos Soto', 'carlos@gmail.com', 'Villa Alegre 77', '987654327', FALSE),
+('88888888-8', 'Paula Ramírez', 'paula@gmail.com', 'Av. Las Amapolas 200', '987654328', TRUE),
+('99999999-9', 'Felipe Torres', 'felipe@gmail.com', 'Los Arrayanes 444', '987654329', FALSE),
+('10101010-1', 'Isabel Vargas', 'isabel@gmail.com', 'Calle Robles 101', '987654330', TRUE);
+
+-- Tabla Usuario
+INSERT INTO Usuario (username, password, tipo_usuario, id_cliente, id_empleado, cambio_password) VALUES
+('juanp', 'pass123', 'cliente', 1, NULL, FALSE),
+('elenag', 'pass123', 'cliente', 2, NULL, TRUE),
+('anaadmin', 'adminpass', 'empleado', NULL, 1, TRUE),
+('luisv', 'vendedorpass', 'empleado', NULL, 2, FALSE),
+('claudiab', 'bodegapass', 'empleado', NULL, 3, TRUE),
+('carlosc', 'contadorpass', 'empleado', NULL, 4, FALSE),
+('marial', 'vendedorpass', 'empleado', NULL, 5, TRUE),
+('javieran', 'contapass', 'empleado', NULL, 7, FALSE),
+('paular', 'pass123', 'cliente', 8, NULL, TRUE),
+('felipet', 'pass123', 'cliente', 9, NULL, FALSE);
+
+-- Tabla Marca
+INSERT INTO Marca (nombre) VALUES
+('Bosch'), ('Makita'), ('Stanley'), ('Sika'), ('DeWalt'),
+('Black+Decker'), ('3M'), ('Tramontina'), ('Irwin'), ('Total Tools');
+
+-- Tabla Producto
+INSERT INTO Producto (nombre, descripcion, precio, id_marca) VALUES
+('Taladro Bosch 500W', 'Taladro eléctrico profesional', 59990, 1),
+('Sierra Circular Makita', 'Corte de madera profesional', 89990, 2),
+('Cinta métrica Stanley', '5 metros, metálica', 5990, 3),
+('Sellador Sika Flex', 'Sellador para grietas', 4990, 4),
+('Atornillador DeWalt', 'Inalámbrico con batería', 65990, 5),
+('Lijadora Black+Decker', 'Multifunción 200W', 32990, 6),
+('Mascarillas 3M', 'N95, caja de 10 unidades', 9900, 7),
+('Alicate Tramontina', 'Uso general, ergonómico', 7990, 8),
+('Nivel Irwin', '60 cm, magnético', 12990, 9),
+('Destornillador Total', 'Punta plana, mango de goma', 2990, 10);
+
+-- Tabla Inventario
+INSERT INTO Inventario (id_sucursal, id_producto, stock) VALUES
+(1, 1, 30), (1, 2, 25), (2, 3, 50), (2, 4, 80), (3, 5, 15),
+(4, 6, 40), (5, 7, 60), (6, 8, 20), (7, 9, 35), (8, 10, 70);
+
+-- Tabla Pedido
+INSERT INTO Pedido (id_cliente, fecha, estado, metodo_pago, retiro_en_tienda) VALUES
+(1, NOW(), 'pendiente', 'debito', TRUE),
+(2, NOW(), 'aprobado', 'credito', FALSE),
+(3, NOW(), 'rechazado', 'transferencia', TRUE),
+(4, NOW(), 'despachado', 'paypal', FALSE),
+(5, NOW(), 'pendiente', 'debito', TRUE),
+(6, NOW(), 'aprobado', 'credito', FALSE),
+(7, NOW(), 'pendiente', 'transferencia', TRUE),
+(8, NOW(), 'despachado', 'paypal', TRUE),
+(9, NOW(), 'rechazado', 'credito', FALSE),
+(10, NOW(), 'pendiente', 'debito', TRUE);
+
+-- Tabla DetallePedido
+INSERT INTO DetallePedido (id_pedido, id_producto, cantidad, precio_unitario) VALUES
+(1, 1, 2, 59990), (1, 3, 1, 5990), (2, 4, 4, 4990),
+(3, 5, 1, 65990), (4, 2, 2, 89990), (5, 6, 3, 32990),
+(6, 7, 10, 9900), (7, 8, 2, 7990), (8, 9, 1, 12990), (9, 10, 5, 2990);
+
+-- Tabla Pago
+INSERT INTO Pago (id_pedido, confirmado_por, fecha_pago, confirmado) VALUES
+(1, 4, NOW(), TRUE), (2, 4, NOW(), TRUE), (3, 7, NOW(), FALSE),
+(4, 7, NOW(), TRUE), (5, 4, NOW(), FALSE), (6, 7, NOW(), TRUE),
+(7, 7, NOW(), FALSE), (8, 4, NOW(), TRUE), (9, 4, NOW(), FALSE), (10, 7, NOW(), TRUE);
+
+-- Tabla Despacho
+INSERT INTO Despacho (id_pedido, encargado_despacho, fecha_despacho, direccion_entrega, entregado) VALUES
+(1, 2, NOW(), 'Calle Falsa 123', FALSE),
+(2, 2, NOW(), 'Calle Real 456', TRUE),
+(3, 5, NOW(), 'Av. Siempre Viva 789', FALSE),
+(4, 5, NOW(), 'Pasaje Las Rosas 321', TRUE),
+(5, 9, NOW(), 'Camino del Sol 555', FALSE),
+(6, 9, NOW(), 'Callejón del Rey 33', TRUE),
+(7, 5, NOW(), 'Villa Alegre 77', TRUE),
+(8, 9, NOW(), 'Av. Las Amapolas 200', TRUE),
+(9, 2, NOW(), 'Los Arrayanes 444', FALSE),
+(10, 5, NOW(), 'Calle Robles 101', TRUE);
+
+
