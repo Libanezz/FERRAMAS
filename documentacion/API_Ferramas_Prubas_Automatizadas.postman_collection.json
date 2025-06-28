@@ -1,0 +1,3073 @@
+{
+	"info": {
+		"_postman_id": "6d20d587-5670-4b29-b283-819233f6230c",
+		"name": "API-Ferramas Prubas Automatizadas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46263115",
+		"_collection_link": "https://libanezvg-6732198.postman.co/workspace/libanezvg's-Workspace~6f235da9-6721-4c00-86f3-a8844bd80065/collection/46263115-6d20d587-5670-4b29-b283-819233f6230c?action=share&source=collection_link&creator=46263115"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "usuarios",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "obtener datos usuario por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/usuarios/1",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"usuarios",
+												"1"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/usuarios/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"usuarios",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idUsuario\": 25115932,\n  \"nombre\": \"dolor tempor\",\n  \"correo\": \"eu Excepteur incididunt adipisicing\",\n  \"contrasena\": \"sunt laboris ut\",\n  \"rol\": \"officia\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar datos usuario",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"idUsuario\": 6,\n    \"nombre\": \"Cliente P\",\n    \"rut\": \"88.888.888-8\",\n    \"correo\": \"prueba@ferramas.cl\",\n    \"telefono\": \"+56910010000\",\n    \"nombreUsuario\": \"clienteprobado\",\n    \"contrasenia\": \"cliente123\",\n    \"tipoUsuario\": \"cliente\",\n    \"cambioPassword\": false,\n    \"sucursal\": {\n        \"idSucursal\": 1,\n        \"nombre\": null,\n        \"direccion\": null\n    }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/usuarios/6",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"usuarios",
+												"6"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idUsuario\": 25115932,\n  \"nombre\": \"dolor tempor\",\n  \"correo\": \"eu Excepteur incididunt adipisicing\",\n  \"contrasena\": \"sunt laboris ut\",\n  \"rol\": \"officia\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/usuarios/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"usuarios",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idUsuario\": 25115932,\n  \"nombre\": \"dolor tempor\",\n  \"correo\": \"eu Excepteur incididunt adipisicing\",\n  \"contrasena\": \"sunt laboris ut\",\n  \"rol\": \"officia\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar usuario por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/usuarios/6",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"usuarios",
+												"6"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/usuarios/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"usuarios",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar usuarios",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/usuarios",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"usuarios"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idUsuario\": -64656195,\n    \"nombre\": \"in culpa nulla\",\n    \"correo\": \"ullamco sunt\",\n    \"contrasena\": \"ullamco\",\n    \"rol\": \"sunt\"\n  },\n  {\n    \"idUsuario\": -3606462,\n    \"nombre\": \"consectet\",\n    \"correo\": \"ullamco in\",\n    \"contrasena\": \"irure cupidatat\",\n    \"rol\": \"in\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear usuario",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Cliente Prueba\",\n  \"rut\": \"99.999.999-9\",\n  \"correo\": \"prueba@ferramas.cl\",\n  \"telefono\": \"+56910010000\",\n  \"nombreUsuario\": \"clienteprueba\",\n  \"contrasenia\": \"cliente123\",\n  \"tipoUsuario\": \"cliente\",\n  \"cambioPassword\": 0,\n  \"sucursal\": {\n    \"idSucursal\": 1\n  }\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"usuarios"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idUsuario\": 25115932,\n  \"nombre\": \"dolor tempor\",\n  \"correo\": \"eu Excepteur incididunt adipisicing\",\n  \"contrasena\": \"sunt laboris ut\",\n  \"rol\": \"officia\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/usuarios",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"usuarios"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idUsuario\": 25115932,\n  \"nombre\": \"dolor tempor\",\n  \"correo\": \"eu Excepteur incididunt adipisicing\",\n  \"contrasena\": \"sunt laboris ut\",\n  \"rol\": \"officia\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "productos",
+					"item": [
+						{
+							"name": "listar productos",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/productos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"productos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/productos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"productos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idProducto\": -90467443,\n    \"nombre\": \"irure commodo ut\",\n    \"descripcion\": \"officia irure dolor\",\n    \"precio\": 53055551.13596982,\n    \"urlImagen\": \"enim voluptate proident sed\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": 18645854,\n      \"nombre\": \"culpa ipsum enim\"\n    }\n  },\n  {\n    \"idProducto\": -80237217,\n    \"nombre\": \"aliqua voluptate\",\n    \"descripcion\": \"ipsum\",\n    \"precio\": 23983160.01756741,\n    \"urlImagen\": \"aute culpa id amet\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": 70648014,\n      \"nombre\": \"ex ipsum\"\n    }\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "obtener producto por id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/productos/7",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"productos",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "crear producto",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"Taladro Percutor 600W Black+Decker\",\r\n  \"descripcion\": \"2 velocidades, uso doméstico intensivo. Incluye maletín con accesorios.\",\r\n  \"precio\": 44990.00,\r\n  \"url_imagen\": \"https://ferreteria-tuya.cl/img/productos/taladro-black-600w.jpg\",\r\n  \"estado\": 1,\r\n  \"marca\": {\r\n    \"idMarca\": 6\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/productos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"productos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "eliminar producto por id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/productos/12",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"productos",
+										"12"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/productos/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"productos",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "actualizar producto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"idProducto\": 12,\r\n    \"nombre\": \"Taladro Actualizado 600W Black+Decker\",\r\n    \"descripcion\": \"2 velocidades, uso doméstico intensivo. Incluye maletín con accesorios.\",\r\n    \"precio\": 49990.00,\r\n    \"urlImagen\": \"https://http2.mlstatic.com/D_NQ_NP_965159-MLC49611321969_042022-O-taladro-percutor-600w-blackdecker-tm600k-b2c.webp\",\r\n    \"estado\": true,\r\n    \"marca\": {\r\n        \"idMarca\": 6,\r\n        \"nombre\": null\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/productos/12",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"productos",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "marcas",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar marcas por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/marcas/6",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"marcas",
+												"6"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/marcas/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"marcas",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idMarca\": -14561493,\n  \"nombre\": \"id pariatur quis in sint\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar marca",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"nombre\": \"Easy\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/marcas/11",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"marcas",
+												"11"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idMarca\": -14561493,\n  \"nombre\": \"id pariatur quis in sint\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/marcas/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"marcas",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idMarca\": -14561493,\n  \"nombre\": \"id pariatur quis in sint\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar marca",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/marcas/11",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"marcas",
+												"11"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/marcas/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"marcas",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar marca",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/marcas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"marcas"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/marcas",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"marcas"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idMarca\": -52440980,\n    \"nombre\": \"irure dolore\"\n  },\n  {\n    \"idMarca\": -79940065,\n    \"nombre\": \"in cillum et sit\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear marca",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nombre\": \"Sodimac\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/marcas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"marcas"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idMarca\": -14561493,\n  \"nombre\": \"id pariatur quis in sint\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/marcas",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"marcas"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idMarca\": -14561493,\n  \"nombre\": \"id pariatur quis in sint\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "pedidos",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar pedidos por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos/2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idPedido\": -2677965,\n  \"usuario\": {\n    \"idUsuario\": 32133941,\n    \"nombre\": \"sit aliqua enim ea\",\n    \"correo\": \"veniam in ut est\",\n    \"contrasena\": \"officia laboris ut\",\n    \"rol\": \"ea commodo ipsum\"\n  },\n  \"fecha\": \"1963-12-24\",\n  \"estado\": \"labore in Duis\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar pedido por id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"usuario\": {\n    \"idUsuario\": 1,\n    \"nombre\": \"Cliente Ferramas\",\n    \"rut\": \"11.111.111-1\",\n    \"correo\": \"cliente@ferramas.cl\",\n    \"telefono\": \"+56910010000\",\n    \"nombreUsuario\": \"cliente\",\n    \"contrasenia\": \"cliente123\",\n    \"tipoUsuario\": \"cliente\",\n    \"cambioPassword\": false,\n    \"sucursal\": {\n      \"idSucursal\": 1,\n      \"nombre\": \"Sucursal Centro\",\n      \"direccion\": \"Av. Libertador Bernardo O’Higgins 1234\"\n    }\n  },\n  \"fecha\": \"2025-06-28T13:30:00\",\n  \"estado\": \"rechazado\",\n  \"metodoPago\": \"paypal\",\n  \"retiroEnTienda\": false\n}\n",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idPedido\": -2677965,\n  \"usuario\": {\n    \"idUsuario\": 32133941,\n    \"nombre\": \"sit aliqua enim ea\",\n    \"correo\": \"veniam in ut est\",\n    \"contrasena\": \"officia laboris ut\",\n    \"rol\": \"ea commodo ipsum\"\n  },\n  \"fecha\": \"1963-12-24\",\n  \"estado\": \"labore in Duis\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idPedido\": -2677965,\n  \"usuario\": {\n    \"idUsuario\": 32133941,\n    \"nombre\": \"sit aliqua enim ea\",\n    \"correo\": \"veniam in ut est\",\n    \"contrasena\": \"officia laboris ut\",\n    \"rol\": \"ea commodo ipsum\"\n  },\n  \"fecha\": \"1963-12-24\",\n  \"estado\": \"labore in Duis\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar pedido por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar pedidos",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/pedidos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pedidos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idPedido\": 12336093,\n    \"usuario\": {\n      \"idUsuario\": -56550169,\n      \"nombre\": \"fugiat dolore\",\n      \"correo\": \"commodo aute cupidatat incididunt\",\n      \"contrasena\": \"voluptate culpa cupidatat\",\n      \"rol\": \"irure adipisicing \"\n    },\n    \"fecha\": \"1998-12-18\",\n    \"estado\": \"aliqua dolore ut\"\n  },\n  {\n    \"idPedido\": -29330863,\n    \"usuario\": {\n      \"idUsuario\": 61797549,\n      \"nombre\": \"non magna\",\n      \"correo\": \"culpa quis veniam oc\",\n      \"contrasena\": \"eu\",\n      \"rol\": \"ut id\"\n    },\n    \"fecha\": \"1964-12-05\",\n    \"estado\": \"in eiusmod et culpa ullamco\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear pedido",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"usuario\": {\n    \"idUsuario\": 1\n  },\n  \"estado\": \"pendiente\",\n  \"metodoPago\": \"debito\",\n  \"retiroEnTienda\": true\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/pedidos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pedidos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idPedido\": -2677965,\n  \"usuario\": {\n    \"idUsuario\": 32133941,\n    \"nombre\": \"sit aliqua enim ea\",\n    \"correo\": \"veniam in ut est\",\n    \"contrasena\": \"officia laboris ut\",\n    \"rol\": \"ea commodo ipsum\"\n  },\n  \"fecha\": \"1963-12-24\",\n  \"estado\": \"labore in Duis\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idPedido\": -2677965,\n  \"usuario\": {\n    \"idUsuario\": 32133941,\n    \"nombre\": \"sit aliqua enim ea\",\n    \"correo\": \"veniam in ut est\",\n    \"contrasena\": \"officia laboris ut\",\n    \"rol\": \"ea commodo ipsum\"\n  },\n  \"fecha\": \"1963-12-24\",\n  \"estado\": \"labore in Duis\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "detalles",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "obtener detalle_pedido por ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/detalles/2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"detalles",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/detalles/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"detalles",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idDetalle\": -59893340,\n  \"pedido\": {\n    \"idPedido\": 8119331,\n    \"usuario\": {\n      \"idUsuario\": -87169856,\n      \"nombre\": \"ad proident\",\n      \"correo\": \"enim dolor\",\n      \"contrasena\": \"proident\",\n      \"rol\": \"quis minim\"\n    },\n    \"fecha\": \"2006-02-06\",\n    \"estado\": \"nostrud non elit dolor\"\n  },\n  \"producto\": {\n    \"idProducto\": -94387550,\n    \"nombre\": \"anim commodo nulla ven\",\n    \"descripcion\": \"dolor commodo culpa anim\",\n    \"precio\": -65972676.97510008,\n    \"urlImagen\": \"ipsum\",\n    \"estado\": false,\n    \"marca\": {\n      \"idMarca\": -70804037,\n      \"nombre\": \"sed elit\"\n    }\n  },\n  \"cantidad\": 67324277,\n  \"precioUnitario\": -66923151.381067574\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar detalle_pedido por ID",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"pedido\": {\n    \"idPedido\": 3\n  },\n  \"producto\": {\n    \"idProducto\": 2\n  },\n  \"cantidad\": 1,\n  \"precioUnitario\": 89990.0\n}\n",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/detalles/6",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"detalles",
+												"6"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idDetalle\": -59893340,\n  \"pedido\": {\n    \"idPedido\": 8119331,\n    \"usuario\": {\n      \"idUsuario\": -87169856,\n      \"nombre\": \"ad proident\",\n      \"correo\": \"enim dolor\",\n      \"contrasena\": \"proident\",\n      \"rol\": \"quis minim\"\n    },\n    \"fecha\": \"2006-02-06\",\n    \"estado\": \"nostrud non elit dolor\"\n  },\n  \"producto\": {\n    \"idProducto\": -94387550,\n    \"nombre\": \"anim commodo nulla ven\",\n    \"descripcion\": \"dolor commodo culpa anim\",\n    \"precio\": -65972676.97510008,\n    \"urlImagen\": \"ipsum\",\n    \"estado\": false,\n    \"marca\": {\n      \"idMarca\": -70804037,\n      \"nombre\": \"sed elit\"\n    }\n  },\n  \"cantidad\": 67324277,\n  \"precioUnitario\": -66923151.381067574\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/detalles/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"detalles",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idDetalle\": -59893340,\n  \"pedido\": {\n    \"idPedido\": 8119331,\n    \"usuario\": {\n      \"idUsuario\": -87169856,\n      \"nombre\": \"ad proident\",\n      \"correo\": \"enim dolor\",\n      \"contrasena\": \"proident\",\n      \"rol\": \"quis minim\"\n    },\n    \"fecha\": \"2006-02-06\",\n    \"estado\": \"nostrud non elit dolor\"\n  },\n  \"producto\": {\n    \"idProducto\": -94387550,\n    \"nombre\": \"anim commodo nulla ven\",\n    \"descripcion\": \"dolor commodo culpa anim\",\n    \"precio\": -65972676.97510008,\n    \"urlImagen\": \"ipsum\",\n    \"estado\": false,\n    \"marca\": {\n      \"idMarca\": -70804037,\n      \"nombre\": \"sed elit\"\n    }\n  },\n  \"cantidad\": 67324277,\n  \"precioUnitario\": -66923151.381067574\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar detalle_pedido por ID",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/detalles/6",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"detalles",
+												"6"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/detalles/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"detalles",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar detalle_pedidos",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/detalles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"detalles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/detalles",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"detalles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idDetalle\": 88958120,\n    \"pedido\": {\n      \"idPedido\": -78651646,\n      \"usuario\": {\n        \"idUsuario\": -47898950,\n        \"nombre\": \"officia dolor\",\n        \"correo\": \"aliqua in qu\",\n        \"contrasena\": \"sint deserunt\",\n        \"rol\": \"incididunt cup\"\n      },\n      \"fecha\": \"1964-12-21\",\n      \"estado\": \"pariatur eiusmod\"\n    },\n    \"producto\": {\n      \"idProducto\": 21051328,\n      \"nombre\": \"amet exercitation eu proident nostrud\",\n      \"descripcion\": \"sed\",\n      \"precio\": -61652559.569507085,\n      \"urlImagen\": \"velit do sit\",\n      \"estado\": false,\n      \"marca\": {\n        \"idMarca\": 90135649,\n        \"nombre\": \"incididunt in proident Duis dolor\"\n      }\n    },\n    \"cantidad\": -31442061,\n    \"precioUnitario\": -18823807.082157806\n  },\n  {\n    \"idDetalle\": -14373619,\n    \"pedido\": {\n      \"idPedido\": 91089873,\n      \"usuario\": {\n        \"idUsuario\": -63097388,\n        \"nombre\": \"qui sunt sit\",\n        \"correo\": \"sed tempor mollit consequat\",\n        \"contrasena\": \"occaecat sed\",\n        \"rol\": \"voluptate velit sit dolor\"\n      },\n      \"fecha\": \"1994-08-22\",\n      \"estado\": \"in proident\"\n    },\n    \"producto\": {\n      \"idProducto\": -64644591,\n      \"nombre\": \"eiusmod\",\n      \"descripcion\": \"dolore labore ipsum\",\n      \"precio\": 71948862.17302758,\n      \"urlImagen\": \"dolor\",\n      \"estado\": true,\n      \"marca\": {\n        \"idMarca\": -27919669,\n        \"nombre\": \"proident do sit consequat\"\n      }\n    },\n    \"cantidad\": 55314817,\n    \"precioUnitario\": 57754212.23847741\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear detalle_pedido",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pedido\": {\n    \"idPedido\": 3\n  },\n  \"producto\": {\n    \"idProducto\": 2\n  },\n  \"cantidad\": 1,\n  \"precioUnitario\": 89990.0\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/detalles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"detalles"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idDetalle\": -59893340,\n  \"pedido\": {\n    \"idPedido\": 8119331,\n    \"usuario\": {\n      \"idUsuario\": -87169856,\n      \"nombre\": \"ad proident\",\n      \"correo\": \"enim dolor\",\n      \"contrasena\": \"proident\",\n      \"rol\": \"quis minim\"\n    },\n    \"fecha\": \"2006-02-06\",\n    \"estado\": \"nostrud non elit dolor\"\n  },\n  \"producto\": {\n    \"idProducto\": -94387550,\n    \"nombre\": \"anim commodo nulla ven\",\n    \"descripcion\": \"dolor commodo culpa anim\",\n    \"precio\": -65972676.97510008,\n    \"urlImagen\": \"ipsum\",\n    \"estado\": false,\n    \"marca\": {\n      \"idMarca\": -70804037,\n      \"nombre\": \"sed elit\"\n    }\n  },\n  \"cantidad\": 67324277,\n  \"precioUnitario\": -66923151.381067574\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/detalles",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"detalles"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idDetalle\": -59893340,\n  \"pedido\": {\n    \"idPedido\": 8119331,\n    \"usuario\": {\n      \"idUsuario\": -87169856,\n      \"nombre\": \"ad proident\",\n      \"correo\": \"enim dolor\",\n      \"contrasena\": \"proident\",\n      \"rol\": \"quis minim\"\n    },\n    \"fecha\": \"2006-02-06\",\n    \"estado\": \"nostrud non elit dolor\"\n  },\n  \"producto\": {\n    \"idProducto\": -94387550,\n    \"nombre\": \"anim commodo nulla ven\",\n    \"descripcion\": \"dolor commodo culpa anim\",\n    \"precio\": -65972676.97510008,\n    \"urlImagen\": \"ipsum\",\n    \"estado\": false,\n    \"marca\": {\n      \"idMarca\": -70804037,\n      \"nombre\": \"sed elit\"\n    }\n  },\n  \"cantidad\": 67324277,\n  \"precioUnitario\": -66923151.381067574\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "sucursales",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar sucursales por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/sucursales/4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"sucursales",
+												"4"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/sucursales/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"sucursales",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idSucursal\": -88006614,\n  \"nombre\": \"incididunt\",\n  \"direccion\": \"fugiat ipsum\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar sucursal por id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"idSucursal\": 5,\n    \"nombre\": \"Sucursal Oriente\",\n    \"direccion\": \"Porto InSeguro 1824\",\n    \"comuna\": \"Normal Quinta\",\n    \"region\": \"Región Metropolitana\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/sucursales/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"sucursales",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idSucursal\": -88006614,\n  \"nombre\": \"incididunt\",\n  \"direccion\": \"fugiat ipsum\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/sucursales/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"sucursales",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idSucursal\": -88006614,\n  \"nombre\": \"incididunt\",\n  \"direccion\": \"fugiat ipsum\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar sucursal por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/sucursales/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"sucursales",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/sucursales/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"sucursales",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar sucursales",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/sucursales",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"sucursales"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/sucursales",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"sucursales"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idSucursal\": -99564223,\n    \"nombre\": \"adipisicin\",\n    \"direccion\": \"ut dolor sint mollit et\"\n  },\n  {\n    \"idSucursal\": 57261219,\n    \"nombre\": \"et m\",\n    \"direccion\": \"deserunt\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear sucursal",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Sucursal Oriente\",\n    \"direccion\": \"Porto Seguro 4281\",\n    \"comuna\": \"Quinta Normal\",\n    \"region\": \"Región Metropolitana\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/sucursales",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"sucursales"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idSucursal\": -88006614,\n  \"nombre\": \"incididunt\",\n  \"direccion\": \"fugiat ipsum\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/sucursales",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"sucursales"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idSucursal\": -88006614,\n  \"nombre\": \"incididunt\",\n  \"direccion\": \"fugiat ipsum\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "inventario",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar inventario por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventario/12",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventario",
+												"12"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventario/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventario",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idInventario\": -19154154,\n  \"producto\": {\n    \"idProducto\": -48764990,\n    \"nombre\": \"ea Lorem minim elit\",\n    \"descripcion\": \"irure deserunt commodo mollit sint\",\n    \"precio\": 99759770.02412978,\n    \"urlImagen\": \"vo\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": -22583298,\n      \"nombre\": \"et deserunt sed ex mollit\"\n    }\n  },\n  \"sucursal\": {\n    \"idSucursal\": 87326553,\n    \"nombre\": \"sunt ut\",\n    \"direccion\": \"sint magna\"\n  },\n  \"cantidad\": 75353487\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar inventario por id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"producto\": {\n    \"idProducto\": 2\n  },\n  \"sucursal\": {\n    \"idSucursal\": 4\n  },\n  \"stock\": 12\n}\n",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventario/13",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventario",
+												"13"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idInventario\": -19154154,\n  \"producto\": {\n    \"idProducto\": -48764990,\n    \"nombre\": \"ea Lorem minim elit\",\n    \"descripcion\": \"irure deserunt commodo mollit sint\",\n    \"precio\": 99759770.02412978,\n    \"urlImagen\": \"vo\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": -22583298,\n      \"nombre\": \"et deserunt sed ex mollit\"\n    }\n  },\n  \"sucursal\": {\n    \"idSucursal\": 87326553,\n    \"nombre\": \"sunt ut\",\n    \"direccion\": \"sint magna\"\n  },\n  \"cantidad\": 75353487\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/inventario/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventario",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idInventario\": -19154154,\n  \"producto\": {\n    \"idProducto\": -48764990,\n    \"nombre\": \"ea Lorem minim elit\",\n    \"descripcion\": \"irure deserunt commodo mollit sint\",\n    \"precio\": 99759770.02412978,\n    \"urlImagen\": \"vo\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": -22583298,\n      \"nombre\": \"et deserunt sed ex mollit\"\n    }\n  },\n  \"sucursal\": {\n    \"idSucursal\": 87326553,\n    \"nombre\": \"sunt ut\",\n    \"direccion\": \"sint magna\"\n  },\n  \"cantidad\": 75353487\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar inventario por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventario/13",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventario",
+												"13"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/inventario/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"inventario",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar inventarios",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/inventario",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventario"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/inventario",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventario"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idInventario\": 5199170,\n    \"producto\": {\n      \"idProducto\": 38660717,\n      \"nombre\": \"fugiat\",\n      \"descripcion\": \"cupidatat\",\n      \"precio\": -8208834.142047778,\n      \"urlImagen\": \"in velit amet est\",\n      \"estado\": false,\n      \"marca\": {\n        \"idMarca\": 91020581,\n        \"nombre\": \"Lorem nisi ex velit\"\n      }\n    },\n    \"sucursal\": {\n      \"idSucursal\": 1906120,\n      \"nombre\": \"in qui veniam nulla\",\n      \"direccion\": \"sit Ut fugiat exercitation Lorem\"\n    },\n    \"cantidad\": -19910366\n  },\n  {\n    \"idInventario\": 98232922,\n    \"producto\": {\n      \"idProducto\": -18350739,\n      \"nombre\": \"in sed culpa\",\n      \"descripcion\": \"irure et amet commodo\",\n      \"precio\": 73452946.15028295,\n      \"urlImagen\": \"dolor irure voluptate nulla\",\n      \"estado\": true,\n      \"marca\": {\n        \"idMarca\": -17951743,\n        \"nombre\": \"ipsum\"\n      }\n    },\n    \"sucursal\": {\n      \"idSucursal\": -72054819,\n      \"nombre\": \"dolore culpa elit labore sit\",\n      \"direccion\": \"eiusmod aliquip irure\"\n    },\n    \"cantidad\": 97221667\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear inventario",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"producto\": {\n    \"idProducto\": 2\n  },\n  \"sucursal\": {\n    \"idSucursal\": 4\n  },\n  \"stock\": 10\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/inventario",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"inventario"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idInventario\": -19154154,\n  \"producto\": {\n    \"idProducto\": -48764990,\n    \"nombre\": \"ea Lorem minim elit\",\n    \"descripcion\": \"irure deserunt commodo mollit sint\",\n    \"precio\": 99759770.02412978,\n    \"urlImagen\": \"vo\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": -22583298,\n      \"nombre\": \"et deserunt sed ex mollit\"\n    }\n  },\n  \"sucursal\": {\n    \"idSucursal\": 87326553,\n    \"nombre\": \"sunt ut\",\n    \"direccion\": \"sint magna\"\n  },\n  \"cantidad\": 75353487\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/inventario",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"inventario"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idInventario\": -19154154,\n  \"producto\": {\n    \"idProducto\": -48764990,\n    \"nombre\": \"ea Lorem minim elit\",\n    \"descripcion\": \"irure deserunt commodo mollit sint\",\n    \"precio\": 99759770.02412978,\n    \"urlImagen\": \"vo\",\n    \"estado\": true,\n    \"marca\": {\n      \"idMarca\": -22583298,\n      \"nombre\": \"et deserunt sed ex mollit\"\n    }\n  },\n  \"sucursal\": {\n    \"idSucursal\": 87326553,\n    \"nombre\": \"sunt ut\",\n    \"direccion\": \"sint magna\"\n  },\n  \"cantidad\": 75353487\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "pagos",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar pagos por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pagos/4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pagos",
+												"4"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pagos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pagos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idPago\": -67086558,\n  \"pedido\": {\n    \"idPedido\": 7111913,\n    \"usuario\": {\n      \"idUsuario\": 67269255,\n      \"nombre\": \"adipisicing magna\",\n      \"correo\": \"ad pariatur\",\n      \"contrasena\": \"elit dolore cupidatat in\",\n      \"rol\": \"qui eu veniam tempor\"\n    },\n    \"fecha\": \"1965-03-23\",\n    \"estado\": \"nostrud Lorem\"\n  },\n  \"monto\": 45518335.6472483,\n  \"metodo\": \"nulla proident voluptate\",\n  \"fecha\": \"1986-07-20\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar pagos por id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"pedido\": { \"idPedido\": 3 },\n  \"fecha\": \"2025-06-30T23:05:00\",\n  \"confirmado\": true,\n  \"confirmadoPor\": { \"idUsuario\": 5 }\n}\n",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pagos/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pagos",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idPago\": -67086558,\n  \"pedido\": {\n    \"idPedido\": 7111913,\n    \"usuario\": {\n      \"idUsuario\": 67269255,\n      \"nombre\": \"adipisicing magna\",\n      \"correo\": \"ad pariatur\",\n      \"contrasena\": \"elit dolore cupidatat in\",\n      \"rol\": \"qui eu veniam tempor\"\n    },\n    \"fecha\": \"1965-03-23\",\n    \"estado\": \"nostrud Lorem\"\n  },\n  \"monto\": 45518335.6472483,\n  \"metodo\": \"nulla proident voluptate\",\n  \"fecha\": \"1986-07-20\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/pagos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pagos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idPago\": -67086558,\n  \"pedido\": {\n    \"idPedido\": 7111913,\n    \"usuario\": {\n      \"idUsuario\": 67269255,\n      \"nombre\": \"adipisicing magna\",\n      \"correo\": \"ad pariatur\",\n      \"contrasena\": \"elit dolore cupidatat in\",\n      \"rol\": \"qui eu veniam tempor\"\n    },\n    \"fecha\": \"1965-03-23\",\n    \"estado\": \"nostrud Lorem\"\n  },\n  \"monto\": 45518335.6472483,\n  \"metodo\": \"nulla proident voluptate\",\n  \"fecha\": \"1986-07-20\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar pagos por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pagos/5",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pagos",
+												"5"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pagos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pagos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar pagos",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/pagos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pagos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pagos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pagos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idPago\": 62610222,\n    \"pedido\": {\n      \"idPedido\": 2866002,\n      \"usuario\": {\n        \"idUsuario\": -56059239,\n        \"nombre\": \"nulla consectet\",\n        \"correo\": \"nisi veniam sit ut deserunt\",\n        \"contrasena\": \"fugiat in\",\n        \"rol\": \"culpa\"\n      },\n      \"fecha\": \"1971-01-17\",\n      \"estado\": \"magna sed ex\"\n    },\n    \"monto\": -34242468.4369318,\n    \"metodo\": \"ex sunt Excepteur aute\",\n    \"fecha\": \"1976-07-10\"\n  },\n  {\n    \"idPago\": 6114701,\n    \"pedido\": {\n      \"idPedido\": -49441881,\n      \"usuario\": {\n        \"idUsuario\": -88248204,\n        \"nombre\": \"ex voluptate esse adipisicing sit\",\n        \"correo\": \"irure proident\",\n        \"contrasena\": \"est laboris\",\n        \"rol\": \"adipisicing do\"\n      },\n      \"fecha\": \"1972-04-18\",\n      \"estado\": \"anim\"\n    },\n    \"monto\": 32412452.811303496,\n    \"metodo\": \"ex Excepteur\",\n    \"fecha\": \"1972-04-18\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear pago",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pedido\": { \"idPedido\": 3 },\n  \"fecha\": \"2025-06-30T23:05:00\",\n  \"confirmado\": true,\n  \"confirmadoPor\": { \"idUsuario\": 5 }\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/pagos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"pagos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idPago\": -67086558,\n  \"pedido\": {\n    \"idPedido\": 7111913,\n    \"usuario\": {\n      \"idUsuario\": 67269255,\n      \"nombre\": \"adipisicing magna\",\n      \"correo\": \"ad pariatur\",\n      \"contrasena\": \"elit dolore cupidatat in\",\n      \"rol\": \"qui eu veniam tempor\"\n    },\n    \"fecha\": \"1965-03-23\",\n    \"estado\": \"nostrud Lorem\"\n  },\n  \"monto\": 45518335.6472483,\n  \"metodo\": \"nulla proident voluptate\",\n  \"fecha\": \"1986-07-20\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pagos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pagos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idPago\": -67086558,\n  \"pedido\": {\n    \"idPedido\": 7111913,\n    \"usuario\": {\n      \"idUsuario\": 67269255,\n      \"nombre\": \"adipisicing magna\",\n      \"correo\": \"ad pariatur\",\n      \"contrasena\": \"elit dolore cupidatat in\",\n      \"rol\": \"qui eu veniam tempor\"\n    },\n    \"fecha\": \"1965-03-23\",\n    \"estado\": \"nostrud Lorem\"\n  },\n  \"monto\": 45518335.6472483,\n  \"metodo\": \"nulla proident voluptate\",\n  \"fecha\": \"1986-07-20\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "despachos",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "listar despacho por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/despachos/2",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"despachos",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/despachos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"despachos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idDespacho\": 90814170,\n  \"pedido\": {\n    \"idPedido\": 46801173,\n    \"usuario\": {\n      \"idUsuario\": 12531472,\n      \"nombre\": \"anim Ut nulla\",\n      \"correo\": \"quis est deserunt sed\",\n      \"contrasena\": \"irure dolor\",\n      \"rol\": \"qui sed consequat\"\n    },\n    \"fecha\": \"1990-04-02\",\n    \"estado\": \"nulla laboris Lorem non\"\n  },\n  \"direccion\": \"ea consectetur mollit\",\n  \"estado\": \"in ullamco\",\n  \"fechaDespacho\": \"2020-02-27\"\n}"
+										}
+									]
+								},
+								{
+									"name": "actualizar despacho por id",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"pedido\": { \"idPedido\": 4 },\n  \"encargado\": { \"idUsuario\": 4 },\n  \"fechaDespacho\": \"2025-07-02T11:00:00\",\n  \"direccionEntrega\": \"Pasaje Los Robles 951, San Joaquín\",\n  \"entregado\": true\n}\n",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/despachos/3",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"despachos",
+												"3"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"idDespacho\": 90814170,\n  \"pedido\": {\n    \"idPedido\": 46801173,\n    \"usuario\": {\n      \"idUsuario\": 12531472,\n      \"nombre\": \"anim Ut nulla\",\n      \"correo\": \"quis est deserunt sed\",\n      \"contrasena\": \"irure dolor\",\n      \"rol\": \"qui sed consequat\"\n    },\n    \"fecha\": \"1990-04-02\",\n    \"estado\": \"nulla laboris Lorem non\"\n  },\n  \"direccion\": \"ea consectetur mollit\",\n  \"estado\": \"in ullamco\",\n  \"fechaDespacho\": \"2020-02-27\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/despachos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"despachos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"idDespacho\": 90814170,\n  \"pedido\": {\n    \"idPedido\": 46801173,\n    \"usuario\": {\n      \"idUsuario\": 12531472,\n      \"nombre\": \"anim Ut nulla\",\n      \"correo\": \"quis est deserunt sed\",\n      \"contrasena\": \"irure dolor\",\n      \"rol\": \"qui sed consequat\"\n    },\n    \"fecha\": \"1990-04-02\",\n    \"estado\": \"nulla laboris Lorem non\"\n  },\n  \"direccion\": \"ea consectetur mollit\",\n  \"estado\": \"in ullamco\",\n  \"fechaDespacho\": \"2020-02-27\"\n}"
+										}
+									]
+								},
+								{
+									"name": "eliminar despacho por id",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/despachos/3",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"despachos",
+												"3"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/despachos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"despachos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "listar despachos",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/despachos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"despachos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/despachos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"despachos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"idDespacho\": 12376917,\n    \"pedido\": {\n      \"idPedido\": -70336692,\n      \"usuario\": {\n        \"idUsuario\": -92284326,\n        \"nombre\": \"ad\",\n        \"correo\": \"mollit dolore aliqua et magna\",\n        \"contrasena\": \"in aute occaecat\",\n        \"rol\": \"consectetur\"\n      },\n      \"fecha\": \"1976-02-09\",\n      \"estado\": \"officia consequat ad anim\"\n    },\n    \"direccion\": \"officia laborum commodo\",\n    \"estado\": \"nost\",\n    \"fechaDespacho\": \"1989-05-23\"\n  },\n  {\n    \"idDespacho\": 71434590,\n    \"pedido\": {\n      \"idPedido\": 21996776,\n      \"usuario\": {\n        \"idUsuario\": -52447208,\n        \"nombre\": \"minim labori\",\n        \"correo\": \"mollit\",\n        \"contrasena\": \"cupidatat in\",\n        \"rol\": \"est sunt dolore eiusmod ullamco\"\n      },\n      \"fecha\": \"1954-03-24\",\n      \"estado\": \"minim est dolore\"\n    },\n    \"direccion\": \"occaecat consequat\",\n    \"estado\": \"voluptate deserunt amet id cupidatat\",\n    \"fechaDespacho\": \"1950-04-08\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "crear despacho",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pedido\": { \"idPedido\": 4 },\n  \"encargado\": { \"idUsuario\": 4 },\n  \"fechaDespacho\": \"2025-07-02T11:00:00\",\n  \"direccionEntrega\": \"Pasaje Los Robles 951, San Joaquín\",\n  \"entregado\": true\n}\n",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/despachos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"despachos"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"idDespacho\": 90814170,\n  \"pedido\": {\n    \"idPedido\": 46801173,\n    \"usuario\": {\n      \"idUsuario\": 12531472,\n      \"nombre\": \"anim Ut nulla\",\n      \"correo\": \"quis est deserunt sed\",\n      \"contrasena\": \"irure dolor\",\n      \"rol\": \"qui sed consequat\"\n    },\n    \"fecha\": \"1990-04-02\",\n    \"estado\": \"nulla laboris Lorem non\"\n  },\n  \"direccion\": \"ea consectetur mollit\",\n  \"estado\": \"in ullamco\",\n  \"fechaDespacho\": \"2020-02-27\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/despachos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"despachos"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"idDespacho\": 90814170,\n  \"pedido\": {\n    \"idPedido\": 46801173,\n    \"usuario\": {\n      \"idUsuario\": 12531472,\n      \"nombre\": \"anim Ut nulla\",\n      \"correo\": \"quis est deserunt sed\",\n      \"contrasena\": \"irure dolor\",\n      \"rol\": \"qui sed consequat\"\n    },\n    \"fecha\": \"1990-04-02\",\n    \"estado\": \"nulla laboris Lorem non\"\n  },\n  \"direccion\": \"ea consectetur mollit\",\n  \"estado\": \"in ullamco\",\n  \"fechaDespacho\": \"2020-02-27\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}
