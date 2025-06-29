@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">🧱 FERREMAS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        {% if request.session.nombreUsuario %}
+          {% if request.session.tipoUsuario == "cliente" %}
+            <li class="nav-item"><a class="nav-link {% if request.path == '/catalogo/' %}active{% endif %}" href="{% url 'catalogo' %}">Catálogo</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'mis_pedidos' %}">Mis pedidos</a></li>
+            <li class="nav-item ms-lg-3">
+              <a class="btn btn-outline-light position-relative" href="{% url 'carrito' %}">
+                <i class="bi bi-cart-fill"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0
+                  <span class="visually-hidden">productos en el carrito</span>
+                </span>
+              </a>
+            </li>
+
+          {% elif request.session.tipoUsuario == "vendedor" %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'vendedor' %}">Panel Vendedor</a></li>
+
+          {% elif request.session.tipoUsuario == "administrador" %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'administrador' %}">Panel Admin</a></li>
+
+          {% elif request.session.tipoUsuario == "bodeguero" %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'bodeguero' %}">Bodega</a></li>
+
+          {% elif request.session.tipoUsuario == "contador" %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'contador' %}">Contabilidad</a></li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a class="nav-link disabled text-white-50">
+              Usuario: {{ request.session.nombreUsuario }}
+            </a>
+          </li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-outline-light" href="{% url 'logout' %}">Cerrar sesión</a>
+          </li>
+
+        {% else %}
+          <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link {% if request.path == '/contacto/' %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link {% if request.path == '/catalogo/' %}active{% endif %}" href="{% url 'catalogo' %}">Catálogo</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registro</a></li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-outline-light position-relative" href="{% url 'carrito' %}">
+              <i class="bi bi-cart-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0
+                <span class="visually-hidden">productos en el carrito</span>
+              </span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
