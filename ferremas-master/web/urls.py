@@ -9,11 +9,13 @@ urlpatterns =[
     path('login/', views. login, name='login'),
     path('registro/', views.registrar_cliente, name='registro'),
     path('carrito/', views. carrito, name='carrito'),
+    path('api/agregar-carrito/', views.api_agregar_al_carrito, name='api_agregar_carrito'),
+    path('api/eliminar-carrito/', views.api_eliminar_del_carrito, name='api_eliminar_carrito'),
     #path('producto_del/<str:pk>', views., name='producto_del'),
     #path('agregar_producto', views.agregar_producto, name='agregar_producto'),
     path('vendedor/', views. vendedor, name='vendedor'),
-    path('contador/', views. contador, name='contador'),
     path('administrador/', views. administrador, name='administrador'),
+    path('contador/', views. contador, name='contador'),
     path('bodeguero/', views. bodeguero, name='bodeguero'),
     path('logout/', views.logout, name='logout'),
     path('cambiar-password/', views.cambiar_password, name='cambiar_password'),
@@ -21,11 +23,4 @@ urlpatterns =[
     path('panel/listar-usuarios/', views.listar_usuarios, name='listar_usuarios'),
     path('panel/editar-usuario/<int:id_usuario>/', views.editar_usuario, name='editar_usuario'),
     path('panel/eliminar-usuario/<int:id_usuario>/', views.eliminar_usuario, name='eliminar_usuario'),
-
-
-
-
-
-
-
-]
+    ]

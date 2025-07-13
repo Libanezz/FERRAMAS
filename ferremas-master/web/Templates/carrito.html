@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 {% load static %}
 {% load humanize %}
@@ -6,144 +5,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FERREMAS - Inicio</title>
+  <title>FERREMAS - Carrito</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'web/css/style.css' %}">
- 
 </head>
 <body>
-<!-- NAVBAR -->
-{% include 'partials/navbar.html' %}
 
+  <!-- NAVBAR -->
+  {% include 'partials/navbar.html' %}
 
-<div class="bg-light py-2 px-3 d-flex justify-content-end align-items-center gap-2">
-  <label for="selector-moneda" class="mb-0 fw-bold">Moneda:</label>
-  <select id="selector-moneda" class="form-select form-select-sm w-auto">
-    <option value="CLP">CLP</option>
-    <option value="USD">USD</option>
-    <option value="EUR">EUR</option>
-  </select>
-</div>
+  <!-- Selector de moneda -->
+  <div class="bg-light py-2 px-3 d-flex justify-content-end align-items-center gap-2">
+    <label for="selector-moneda" class="mb-0 fw-bold">Moneda:</label>
+    <select id="selector-moneda" class="form-select form-select-sm w-auto">
+      <option value="CLP">CLP</option>
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+    </select>
+  </div>
 
+  <!-- CONTENIDO -->
+  <div class="container">
+    <h1 class="mt-4">Tus Productos</h1>
 
-
-<!-- CONTENIDO -->
-<div class="container">
-  <h1 class="mt-4">Tus Productos</h1>
-  
-
-  <div class="row">
-    <!-- Lista de productos -->
-    <div class="col-md-8">
-      <div class="card mb-4">
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            {% for producto in productos %}
+    <div class="row">
+      <!-- Lista de productos -->
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <ul class="list-group list-group-flush" id="carrito-django">
+              {% for producto in productos %}
               <li class="list-group-item">
                 <div class="row">
                   <div class="col-md-8">
                     <strong>Nombre:</strong> {{ producto.nombre }}<br>
-                    <strong>Precio:</strong> <span class="price" data-base="{{ producto.precio }}">{{ producto.precio|floatformat:0|intcomma   }}</span><br>
+                    <strong>Precio:</strong>
+                    <span class="price" data-base="{{ producto.precio }}">
+                      {{ producto.precio|floatformat:0|intcomma }}
+                    </span><br>
                     <strong>Descripción:</strong> {{ producto.descripcion }}<br>
                   </div>
                   <div class="col-md-4 text-end">
-                    <a href="{% url 'producto_del' pk=producto.id %}" class="btn btn-danger btn-sm mt-3">Eliminar</a>
+                    <button class="btn btn-danger btn-sm mt-3 btn-eliminar" data-id="{{ producto.id }}">
+                      Eliminar
+                    </button>
                   </div>
                 </div>
               </li>
-            {% empty %}
+              {% empty %}
               <li class="list-group-item text-center text-muted">
                 No hay productos en tu carrito.
               </li>
-            {% endfor %}
-          </ul>
+              {% endfor %}
+            </ul>
+            <ul class="list-group list-group-flush d-none" id="carrito-local"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header bg-dark text-white">Resumen de Compra</div>
+          <div class="card-body" id="resumen-body">
+            {% if productos %}
+              <p>Subtotal: ${{ subtotal }}</p>
+              <p>Envío: ${{ envio }}</p>
+              <hr>
+              <h5>Total: ${{ total }}</h5>
+              <button class="btn btn-success w-100 mt-4">Finalizar compra</button>
+            {% else %}
+              <p class="text-center text-muted mb-0">Agrega productos para ver el resumen de compra.</p>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
-
-<div class="col-md-4">
-  <div class="card">
-    <div class="card-header bg-dark text-white">Resumen de Compra</div>
-    <div class="card-body">
-      {% if productos %}
-        <p>Subtotal: ${{ subtotal }}</p>
-        <p>Envío: ${{ envio }}</p>
-        <hr>
-        <h5>Total: ${{ total }}</h5>
-
-        <!-- Método de entrega -->
-        <div class="mt-3">
-          <label class="form-label fw-bold">Método de entrega:</label><br>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="entrega" id="retiro" checked>
-            <label class="form-check-label" for="retiro">Retiro en tienda</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="entrega" id="delivery">
-            <label class="form-check-label" for="delivery">Delivery</label>
-          </div>
-        </div>
-
-<select id="metodoPago" class="form-select mb-3">
-  <option value="tarjeta">Tarjeta de crédito</option>
-  <option value="debito">Débito / RedCompra</option>
-  <option value="transferencia">Transferencia</option>
-  <option value="paypal">PayPal</option>
-</select>
-<form id="form-pago">
-<!-- Formulario Tarjeta de Crédito -->
-<div id="form-tarjeta" style="display:none;" class="mb-3">
-  <label class="form-label">Número de tarjeta</label>
-  <input type="text" class="form-control mb-2" name="numero_tarjeta" placeholder="1234 5678 9012 3456" />
-  <label class="form-label">Fecha de expiración</label>
-  <input type="text" class="form-control mb-2" name="expiracion" placeholder="MM/AA" />
-  <label class="form-label">CVV</label>
-  <input type="text" class="form-control" name="cvv" placeholder="123" />
-</div>
-
-<!-- Formulario Débito / RedCompra -->
-<div id="form-debito" style="display:none;" class="mb-3">
-  <label class="form-label">Banco</label>
-  <input type="text" class="form-control mb-2" name="banco_debito" placeholder="Banco Ejemplo" />
-  <label class="form-label">Número de tarjeta</label>
-  <input type="text" class="form-control" name="numero_debito" placeholder="1234 5678 9012 3456" />
-</div>
-
-<!-- Formulario Transferencia -->
-<div id="form-transferencia" style="display:none;" class="mb-3">
-  <label class="form-label">Banco</label>
-  <input type="text" class="form-control mb-2" name="banco" placeholder="Banco Ejemplo" />
-  <label class="form-label">Número de transferencia</label>
-  <input type="text" class="form-control" name="numero_transferencia" placeholder="123456789" />
-</div>
-
-<!-- Contenedor PayPal -->
-<div id="paypal-button-container" style="display:none;"></div>
-
-<button id="btn-finalizar" class="btn btn-success w-100 mt-4">Finalizar compra</button>
-</form>
-      {% else %}
-        <p class="text-center text-muted mb-0">Agrega productos para ver el resumen de compra.</p>
-      {% endif %}
-    </div>
   </div>
-</div>
 
+  {% include 'partials/footer.html' %}
 
+  <!-- SDK de PayPal -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 
-  </div>
-</div>
+  <!-- Scripts -->
+  <script src="{% static 'web/js/pago.js' %}"></script>
+  <script src="{% static 'web/js/moneda.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-{% include 'partials/footer.html' %}
-<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-<script src="{% static 'web/js/pago.js' %}"></script>
+  <!-- Script Final Consolidado -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const carritoRaw = localStorage.getItem('carrito');
+      const lista = document.getElementById('carrito-local');
+      const resumenBody = document.getElementById('resumen-body');
+      const carritoDjango = document.getElementById('carrito-django');
 
-   <script src="{% static 'web/js/moneda.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  
+      // Eliminar productos en Django
+      document.querySelectorAll('.btn-eliminar').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const productoId = btn.dataset.id;
+          fetch("{% url 'api_eliminar_carrito' %}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: `producto_id=${productoId}`
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              const badge = document.getElementById('cart-count');
+              if (badge) badge.textContent = data.contador;
+              location.reload();
+            }
+          });
+        });
+      });
+
+      // Si no hay productos en Django, usar localStorage
+      if (carritoRaw && carritoDjango.children.length <= 1) {
+        carritoDjango.classList.add('d-none');
+        lista.classList.remove('d-none');
+
+        const carrito = JSON.parse(carritoRaw);
+        let subtotal = 0;
+
+        carrito.forEach(p => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item';
+          li.innerHTML = `
+            <div class="row">
+              <div class="col-md-8">
+                <strong>Nombre:</strong> ${p.nombre}<br>
+                <strong>Precio:</strong> <span class="price">${p.precio}</span><br>
+                <strong>Descripción:</strong> ${p.descripcion}<br>
+              </div>
+              <div class="col-md-4 text-end">
+                <button class="btn btn-danger btn-sm mt-3 btn-eliminar-local" data-id="${p.id}">Eliminar</button>
+              </div>
+            </div>`;
+          lista.appendChild(li);
+          subtotal += parseInt(p.precio.replace(/[^0-9]/g, ''));
+        });
+
+        const envio = carrito.length ? 3000 : 0;
+        const total = subtotal + envio;
+
+        resumenBody.innerHTML = `
+          <p><strong>Subtotal:</strong> $${subtotal.toLocaleString()}</p>
+          <p><strong>Envío:</strong> $${envio.toLocaleString()}</p>
+          <hr>
+          <p><strong>Total:</strong> $${total.toLocaleString()}</p>
+
+          <div class="mt-3">
+            <label class="form-label fw-bold">Método de entrega:</label><br>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="entrega" value="retiro" checked>
+              <label class="form-check-label">Retiro en tienda</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="entrega" value="delivery">
+              <label class="form-check-label">Delivery</label>
+            </div>
+          </div>
+
+          <label class="form-label fw-bold mt-3">Método de pago:</label>
+          <select id="metodoPago" class="form-select mb-3 mt-1">
+            <option value="tarjeta">Tarjeta de crédito</option>
+            <option value="debito">Débito / RedCompra</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="paypal">PayPal</option>
+          </select>
+
+          <div id="paypal-button-container" class="mb-3" style="display:none;"></div>
+        `;
+
+        // Eliminar producto de localStorage
+        document.querySelectorAll('.btn-eliminar-local').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const nuevoCarrito = carrito.filter(p => p.id !== btn.dataset.id);
+            localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+            location.reload();
+          });
+        });
+
+        // Activar botón de PayPal si se selecciona ese método
+        const metodoPago = document.getElementById('metodoPago');
+        metodoPago.addEventListener('change', () => {
+          const paypalContainer = document.getElementById('paypal-button-container');
+          if (metodoPago.value === 'paypal') {
+            paypalContainer.style.display = 'block';
+            paypal.Buttons({
+              createOrder: (data, actions) => {
+                return actions.order.create({
+                  purchase_units: [{
+                    amount: {
+                      value: (total / 1000).toFixed(2)
+                    }
+                  }]
+                });
+              },
+              onApprove: (data, actions) => {
+                return actions.order.capture().then(details => {
+                  const entregaSeleccionada = document.querySelector('input[name="entrega"]:checked').value;
+                  const pedido = {
+                    cliente: details.payer.name.given_name,
+                    fecha: new Date().toISOString(),
+                    productos: carrito,
+                    envio,
+                    subtotal,
+                    total,
+                    entrega: entregaSeleccionada,
+                    metodo: 'paypal'
+                  };
+                  localStorage.setItem('pedido_realizado', JSON.stringify(pedido));
+                  localStorage.removeItem('carrito');
+
+                  resumenBody.innerHTML = `
+                    <div class="alert alert-success mt-4" role="alert">
+                      ¡Compra completada con éxito, ${pedido.cliente}! 🧾
+                    </div>
+                    <p><strong>Método de entrega:</strong> ${pedido.entrega}</p>
+                    <p><strong>Método de pago:</strong> ${pedido.metodo}</p>
+                    <p><strong>Total pagado:</strong> $${pedido.total.toLocaleString()}</p>
+                    <a class="btn btn-dark mt-3" href="/catalogo/">Volver al catálogo</a>
+                  `;
+                });
+              }
+            }).render('#paypal-button-container');
+          } else {
+            paypalContainer.style.display = 'none';
+            paypalContainer.innerHTML = '';
+          }
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
-
-

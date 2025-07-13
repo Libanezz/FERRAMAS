@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
+
 #core- listar productos de la bdd tabla productos
 def obtener_productos():
     ##url="http://127.0.0.1:8090/api/productos/"
@@ -33,17 +34,72 @@ def ver_productos(request):
     contexto = { "datos":productos}
     return render (request, 'catalogo.html', contexto)
 
+##def carrito(request):
+  ##  productos= Producto.objects.all()
+    ##context= {'productos':productos}
+    ##return render(request, 'carrito.html', context)
+
+
+
 def carrito(request):
-    productos= Producto.objects.all()
-    context= {'productos':productos}
+    carrito_ids = request.session.get('carrito', [])
+    productos = Producto.objects.filter(id__in=carrito_ids)
+
+    subtotal = sum(p.precio for p in productos)
+    envio = 3000 if productos else 0
+    total = subtotal + envio
+
+    context = {
+        'productos': productos,
+        'subtotal': subtotal,
+        'envio': envio,
+        'total': total,
+    }
     return render(request, 'carrito.html', context)
 
+
+
+@csrf_exempt
+def api_agregar_al_carrito(request):
+    if request.method == 'POST':
+        producto_id_raw = request.POST.get('producto_id')
+        try:
+            producto_id = int(producto_id_raw)
+            producto = Producto.objects.get(id=producto_id)
+        except (ValueError, TypeError, Producto.DoesNotExist):
+            return JsonResponse({'success': False, 'error': 'ID de producto inválido o inexistente'})
+
+        carrito = request.session.get('carrito', [])
+        if producto_id not in carrito:
+            carrito.append(producto_id)
+            request.session['carrito'] = carrito
+
+        return JsonResponse({'success': True, 'contador': len(carrito)})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+
+@csrf_exempt
+def api_eliminar_del_carrito(request):
+    if request.method == 'POST':
+        producto_id_raw = request.POST.get('producto_id')
+        try:
+            producto_id = int(producto_id_raw)
+        except (ValueError, TypeError):
+            return JsonResponse({'success': False, 'error': 'ID de producto inválido'})
+
+        carrito = request.session.get('carrito', [])
+        if producto_id in carrito:
+            carrito.remove(producto_id)
+            request.session['carrito'] = carrito
+
+        return JsonResponse({'success': True, 'contador': len(carrito)})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
 
 def vendedor(request):
     if request.session.get("tipoUsuario") != "vendedor":
         messages.error(request, "Acceso denegado. No tienes permisos para ingresar aquí.")
         return redirect('login')
-    return render(request, 'vendedor.html')
+    return render(request, 'administrador.html')
 
 def contador(request):
     if request.session.get("tipoUsuario") != "contador":
@@ -93,7 +149,7 @@ def crear_usuario(request):
             messages.error(request, "Error al cifrar la contraseña.")
             return redirect('crear_usuario')
 
-        # Enviar al backend (ajustá la URL si cambia)
+        # Enviar al backend 
         try:
             response = requests.post('http://localhost:8080/api/usuarios', json=datos)
             if response.status_code == 201:
@@ -117,7 +173,7 @@ def listar_usuarios(request):
         response = requests.get('http://localhost:8080/api/usuarios')
         if response.status_code == 200:
             todos = response.json()
-            # Filtrar roles internos
+            # Filtrado roles internos
             internos = [
                 user for user in todos
                 if user["tipoUsuario"] in ["vendedor", "bodeguero", "contador"]
@@ -222,10 +278,7 @@ def home(request):
     return render(request,'home.html', context)
 
 
-import requests
-import bcrypt
-from django.shortcuts import render, redirect
-from django.contrib import messages
+
 
 def login(request):
     if request.method == 'POST':
@@ -286,10 +339,14 @@ def iniciar_sesion(request, usuario):
     request.session['nombreUsuario'] = usuario['nombreUsuario']
     request.session['tipoUsuario'] = usuario['tipoUsuario']
 
+    # Si es cliente, inicializa el carrito vacío al ingresar
+    if usuario['tipoUsuario'] == 'cliente':
+        request.session['carrito'] = []
+
     # Forzamos cambio de contraseña si es admin y no la ha cambiado
     if usuario['tipoUsuario'] == 'administrador' and usuario.get('cambioPassword', False) == True:
         messages.info(request, "Por seguridad, debes cambiar tu contraseña inicial.")
-        return redirect('cambiar_password')  # Asegurate de tener esta vista lista
+        return redirect('cambiar_password')
 
     # Redireccionamos según tipo de usuario
     tipo = usuario['tipoUsuario']
@@ -363,19 +420,14 @@ def cambiar_password(request):
 
 
 
-
-
+    # elimina los datos de sesión
 def logout(request):
-    request.session.flush()  # elimina todos los datos de sesión
-    return redirect('login')
-
-
-def contacto(request):
-    return render(request, 'contacto.html')
+        request.session.flush()  
+        return redirect('login')
 
 
 def registrar_cliente(request):
-    # 1. Traer las sucursales desde la API para el dropdown
+     #Trae las sucursales desde la API para el dropdown
     try:
         suc_res = requests.get("http://localhost:8080/api/sucursales")
         sucursales = suc_res.json()
@@ -383,19 +435,25 @@ def registrar_cliente(request):
         sucursales = []
         messages.error(request, "No se pudieron cargar las sucursales.")
 
+    # recibe una solicitud POST (formulario enviado)
     if request.method == 'POST':
         # Validar contraseña
         if request.POST['contrasenia'] != request.POST['confirmar_contrasenia']:
             messages.error(request, "Las contraseñas no coinciden.")
             return render(request, 'registro.html', {'sucursales': sucursales})
 
-        # Verificar si usuario ya existe
-        usuarios = requests.get("http://localhost:8080/api/usuarios").json()
+        # Verifica si el usuario ya existe
+        try:
+            usuarios = requests.get("http://localhost:8080/api/usuarios").json()
+        except:
+            messages.error(request, "No se pudo validar el nombre de usuario.")
+            return render(request, 'registro.html', {'sucursales': sucursales})
+
         if any(u['nombreUsuario'] == request.POST['nombre_usuario'] for u in usuarios):
             messages.error(request, "El nombre de usuario ya está registrado.")
             return render(request, 'registro.html', {'sucursales': sucursales})
 
-        # Encriptar contraseña
+        # Encripta la contraseña
         contrasenia_encriptada = bcrypt.hashpw(
             request.POST['contrasenia'].encode('utf-8'),
             bcrypt.gensalt()
@@ -416,6 +474,7 @@ def registrar_cliente(request):
             }
         }
 
+        # Enviar datos a la API
         res = requests.post("http://localhost:8080/api/usuarios", json=nuevo_cliente)
 
         if res.status_code in [200, 201]:
@@ -424,83 +483,9 @@ def registrar_cliente(request):
         else:
             messages.error(request, "Ocurrió un error al registrar. Intenta nuevamente.")
 
+    # Renderizar formulario (ya sea GET o después de error)
     return render(request, 'registro.html', {'sucursales': sucursales})
 
 
-
-
-
-
-
-'''def agregar_producto(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        descripcion = request.POST.get('descripcion')
-        precio = request.POST.get('precio')
-        imagen_url = request.POST.get('imagen_url')
-        
-        producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, imagen_url=imagen_url)
-        producto.save()
-        
-        return redirect('catalogo')
-    return render(request, 'catalogo.html', {'mensaje': 'Producto agregado correctamente.'}) 
-'''
-
-'''def producto_del(request, pk):
-    context = {}
-    try:
-        producto = Producto.objects.get(id=pk)
-        producto.delete()
-
-        mensaje = "Producto eliminado correctamente"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
-    except Producto.DoesNotExist:
-        mensaje = "El producto no existe"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
-    except Exception as e:
-        mensaje = f"Error al eliminar el producto: {str(e)}"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
-
-    return render(request, 'carrito.html', context)
-'''
-
-
-
-
-
-
-
-
-
-
-
-'''
-#APIs:
-#def api_productos(request):
-    productos = Producto.objects.all()
-    data = [{
-        'id': p.id,
-        'nombre': p.nombre,
-        'descripcion': p.descripcion,
-        'precio': p.precio,
-        'stock': p.stock
-    } for p in productos]
-    return JsonResponse(data, safe=False)
-
-'''
-''''
-#@csrf_exempt
-#def api_usuarios(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        # Crear usuario
-        usuario = Usuario.objects.create(**data)
-        return JsonResponse({'success': True})
-
-    usuarios = Usuario.objects.all()
-    data = [{'id': u.id, 'nombre': u.nombre, 'correo': u.correo} for u in usuarios]
-    return JsonResponse(data, safe=False)
-'''
+def contacto(request):
+    return render(request, 'contacto.html')
