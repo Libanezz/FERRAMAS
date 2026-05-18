@@ -7,12 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const formDebito = document.getElementById('form-debito');
   const formPago = document.getElementById('form-pago');
 
+  const btnFinalizar = document.getElementById('btn-finalizar');
+  const totalMontoElement = document.getElementById('total-monto');
+
+  function obtenerTotal() {
+    if (totalMontoElement) {
+        // Limpiamos puntos y comas para obtener el número puro
+        return totalMontoElement.textContent.replace(/\./g, '').replace(/,/g, '');
+    }
+    return '0';
+  }
+
   // Render PayPal Buttons 
   paypal.Buttons({
-    createOrder: (data, actions) => actions.order.create({
-      purchase_units: [{ amount: { value: '9999' } }]
-    }),
-    onApprove: () => alert('Pago simulado completado!')
+    createOrder: (data, actions) => {
+      const total = obtenerTotal();
+      return actions.order.create({
+        purchase_units: [{ amount: { value: total } }]
+      });
+    },
+    onApprove: () => alert('¡Pago con PayPal simulado completado!')
   }).render('#paypal-button-container');
 
   function ocultarFormularios() {
@@ -24,22 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function actualizarPago() {
     ocultarFormularios();
+    const totalActual = obtenerTotal();
+    const totalFormateado = Number(totalActual).toLocaleString('es-CL');
+
+    if (btnFinalizar) {
+        btnFinalizar.textContent = `Finalizar compra - $${totalFormateado}`;
+    }
 
     switch (metodoPago.value) {
       case 'paypal':
         paypalContainer.style.display = 'block';
+        if (btnFinalizar) btnFinalizar.style.display = 'none'; // PayPal tiene su propio botón
         if (infoPago) infoPago.textContent = '';
         break;
       case 'tarjeta':
         formTarjeta.style.display = 'block';
+        if (btnFinalizar) btnFinalizar.style.display = 'block';
         if (infoPago) infoPago.textContent = 'Simulación de pago con tarjeta de crédito seleccionada.';
         break;
       case 'debito':
         formDebito.style.display = 'block';
+        if (btnFinalizar) btnFinalizar.style.display = 'block';
         if (infoPago) infoPago.textContent = 'Simulación de pago con débito / RedCompra seleccionada.';
         break;
       case 'transferencia':
         formTransferencia.style.display = 'block';
+        if (btnFinalizar) btnFinalizar.style.display = 'block';
         if (infoPago) infoPago.textContent = 'Simulación de pago por transferencia seleccionada.';
         break;
       default:

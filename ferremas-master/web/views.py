@@ -25,17 +25,103 @@ def obtener_productos():
 
 def ver_productos(request):
     productos = obtener_productos()
-    #print("Productos desde API:", productos)
+    query = request.GET.get('q')
+
     if not productos:
         messages.warning(request, "No se pudieron cargar productos desde la API")
         productos = []
 
-    contexto = { "datos":productos}
+    # === NUEVO: Consolidar stock real desde la tabla inventario (Mapeo Robusto) ===
+    try:
+        inv_res = requests.get('http://localhost:8080/api/inventario')
+        if inv_res.status_code == 200:
+            inventarios = inv_res.json()
+            stock_map = {}
+            for item in inventarios:
+                # Intentar obtener el ID del producto (soporta idProducto, id_producto, id)
+                prod_obj = item.get('producto', {})
+                pid = prod_obj.get('idProducto') or prod_obj.get('id_producto') or prod_obj.get('id')
+                
+                # Intentar obtener la cantidad (soporta stock o cantidad)
+                qty = item.get('stock') if item.get('stock') is not None else item.get('cantidad', 0)
+                
+                if pid is not None:
+                    stock_map[str(pid)] = stock_map.get(str(pid), 0) + qty
+            
+            # Asignar el stock consolidado a cada producto
+            for p in productos:
+                pid = p.get('idProducto') or p.get('id_producto') or p.get('id')
+                p['stock'] = stock_map.get(str(pid), 0)
+    except Exception:
+        # Fallback: si falla la API, asumimos stock 0 por seguridad
+        for p in productos: p['stock'] = 0
+    # ============================================================================
+
+    # Aplicar filtro de búsqueda si existe query
+    if query:
+        productos = [p for p in productos if query.lower() in p['nombre'].lower() or query.lower() in p['descripcion'].lower()]
+
+    # Ordenar productos: con stock primero (stock > 0), sin stock al final (stock <= 0)
+    productos = sorted(productos, key=lambda x: x.get('stock', 0) <= 0)
+
+    contexto = { "datos": productos, "query": query }
     return render (request, 'catalogo.html', contexto)
 
+def api_sugerencias(request):
+    query = request.GET.get('q', '').lower()
+    if not query:
+        return JsonResponse([], safe=False)
+    
+    productos = obtener_productos()
+    if not productos:
+        return JsonResponse([], safe=False)
+    
+    # Mapeo robusto para sugerencias
+    try:
+        inv_res = requests.get('http://localhost:8080/api/inventario')
+        if inv_res.status_code == 200:
+            inventarios = inv_res.json()
+            stock_map = {}
+            for item in inventarios:
+                prod_obj = item.get('producto', {})
+                pid = prod_obj.get('idProducto') or prod_obj.get('id_producto') or prod_obj.get('id')
+                qty = item.get('stock') if item.get('stock') is not None else item.get('cantidad', 0)
+                if pid is not None:
+                    stock_map[str(pid)] = stock_map.get(str(pid), 0) + qty
+            for p in productos:
+                pid = p.get('idProducto') or p.get('id_producto') or p.get('id')
+                p['stock'] = stock_map.get(str(pid), 0)
+    except: pass
+
+    # Filtrar nombres de productos que coincidan
+    sugerencias = [
+        {
+            'nombre': p['nombre'],
+            'precio': p['precio'],
+            'urlImagen': p['urlImagen'],
+            'stock': p.get('stock', 0)
+        }
+        for p in productos 
+        if query in p['nombre'].lower()
+    ]
+    
+    # Limitar a 5 sugerencias para no saturar
+    return JsonResponse(sugerencias[:5], safe=False)
+
 def carrito(request):
-    productos= Producto.objects.all()
-    context= {'productos':productos}
+    productos = Producto.objects.all()
+    subtotal = sum(p.precio * p.cantidad for p in productos)
+    
+    # Lógica de envío: Gratis sobre 100,000 (según el banner del home)
+    envio = 0 if subtotal >= 100000 or subtotal == 0 else 5000
+    total = subtotal + envio
+    
+    context = {
+        'productos': productos,
+        'subtotal': int(subtotal),
+        'envio': envio,
+        'total': int(total)
+    }
     return render(request, 'carrito.html', context)
 
 
@@ -84,6 +170,25 @@ def crear_usuario(request):
         }
 
         contrasenia_plana = request.POST.get('contrasenia')
+
+        # === NUEVA VALIDACIÓN: Verificar usuario y correo único ===
+        try:
+            usuarios_res = requests.get('http://localhost:8080/api/usuarios')
+            if usuarios_res.status_code == 200:
+                usuarios = usuarios_res.json()
+                nombre_usuario = datos["nombreUsuario"]
+                correo = datos["correo"]
+
+                if any(u['nombreUsuario'] == nombre_usuario for u in usuarios):
+                    messages.error(request, "El nombre de usuario ya está registrado.")
+                    return redirect('crear_usuario')
+                    
+                if any(u['correo'] == correo for u in usuarios):
+                    messages.error(request, "El correo electrónico ya está registrado por otro usuario.")
+                    return redirect('crear_usuario')
+        except Exception:
+            pass # Si falla la consulta, dejamos que el backend maneje el error al intentar crear
+        # ==========================================================
 
         # Cifrar la contraseña con bcrypt
         try:
@@ -243,24 +348,33 @@ def login(request):
 
                     # === Lógica diferenciada por rol ===
                     if tipo == 'administrador':
-                        if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
-                            return iniciar_sesion(request, usuario)
-                        else:
-                             messages.error(request, "Contraseña incorrecta.")
-                             return redirect('login')
-
-
-                    elif tipo == 'cliente':
-                        # Contraseña hasheada con bcrypt
+                        # Intentar con bcrypt, si falla o no es un hash válido, probar texto plano
                         try:
                             if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
                                 return iniciar_sesion(request, usuario)
-                            else:
-                                messages.error(request, "Contraseña incorrecta.")
-                                return redirect('login')
-                        except Exception:
-                            messages.error(request, "Error en validación de contraseña.")
-                            return redirect('login')
+                        except (ValueError, TypeError):
+                            pass
+                        
+                        if contrasena_ingresada == contrasena_guardada:
+                            return iniciar_sesion(request, usuario)
+                        
+                        messages.error(request, "Contraseña incorrecta.")
+                        return redirect('login')
+
+
+                    elif tipo == 'cliente':
+                        # Intentar con bcrypt, fallback a texto plano
+                        try:
+                            if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
+                                return iniciar_sesion(request, usuario)
+                        except (ValueError, TypeError):
+                            pass
+
+                        if contrasena_ingresada == contrasena_guardada:
+                            return iniciar_sesion(request, usuario)
+
+                        messages.error(request, "Contraseña incorrecta.")
+                        return redirect('login')
 
                     elif tipo in ['vendedor', 'bodeguero', 'contador']:
                         # Contraseña en texto plano (por ahora)
@@ -312,8 +426,8 @@ def iniciar_sesion(request, usuario):
 
 @csrf_exempt
 def cambiar_password(request):
-    if request.session.get("tipoUsuario") != "administrador":
-        messages.error(request, "Acceso denegado.")
+    if not request.session.get("idUsuario"):
+        messages.error(request, "Debes iniciar sesión para cambiar tu contraseña.")
         return redirect('login')
 
     if request.method == 'POST':
@@ -340,6 +454,23 @@ def cambiar_password(request):
                 return redirect('cambiar_password')
 
             usuario_actual = response_get.json()
+            contrasenia_actual = usuario_actual.get('contrasenia')
+
+            # --- NUEVA REGLA: No permitir la misma contraseña ---
+            # Caso 1: Verificar si la contraseña actual es un hash de bcrypt
+            password_es_igual = False
+            try:
+                if bcrypt.checkpw(nueva_password.encode(), contrasenia_actual.encode()):
+                    password_es_igual = True
+            except (ValueError, TypeError):
+                # Caso 2: Fallback a texto plano si no es un hash válido
+                if nueva_password == contrasenia_actual:
+                    password_es_igual = True
+            
+            if password_es_igual:
+                messages.error(request, "La nueva contraseña no puede ser igual a la actual. Por favor, elige una diferente.")
+                return redirect('cambiar_password')
+            # ----------------------------------------------------
 
             # 2. Reemplazar campos sensibles
             usuario_actual["contrasenia"] = hashed
@@ -349,7 +480,20 @@ def cambiar_password(request):
             response_put = requests.put(f"http://localhost:8080/api/usuarios/{id_usuario}", json=usuario_actual)
             if response_put.status_code == 200:
                 messages.success(request, "Contraseña actualizada correctamente.")
-                return redirect('administrador')
+                
+                # Redirección dinámica según rol
+                tipo = request.session.get("tipoUsuario")
+                if tipo == 'cliente':
+                    return redirect('catalogo')
+                elif tipo == 'vendedor':
+                    return redirect('vendedor')
+                elif tipo == 'administrador':
+                    return redirect('administrador')
+                elif tipo == 'bodeguero':
+                    return redirect('bodeguero')
+                elif tipo == 'contador':
+                    return redirect('contador')
+                return redirect('home')
             else:
                 messages.error(request, "Error al actualizar la contraseña.")
                 return redirect('cambiar_password')
@@ -368,6 +512,28 @@ def cambiar_password(request):
 def logout(request):
     request.session.flush()  # elimina todos los datos de sesión
     return redirect('login')
+
+
+def mis_pedidos(request):
+    if request.session.get("tipoUsuario") != "cliente":
+        messages.error(request, "Acceso denegado.")
+        return redirect('login')
+    
+    id_usuario = request.session.get("idUsuario")
+    pedidos = []
+    
+    try:
+        # Obtener todos los pedidos desde la API
+        response = requests.get('http://localhost:8080/api/pedidos')
+        if response.status_code == 200:
+            todos_los_pedidos = response.json()
+            # Filtrar solo los pedidos del usuario actual
+            # Nota: Ajustar el nombre del campo 'usuario' o 'idUsuario' según la respuesta real de la API
+            pedidos = [p for p in todos_los_pedidos if p.get('usuario', {}).get('idUsuario') == id_usuario]
+    except Exception as e:
+        messages.warning(request, f"No se pudieron cargar tus pedidos: {str(e)}")
+
+    return render(request, 'mis_pedidos.html', {'pedidos': pedidos})
 
 
 def contacto(request):
@@ -389,11 +555,18 @@ def registrar_cliente(request):
             messages.error(request, "Las contraseñas no coinciden.")
             return render(request, 'registro.html', {'sucursales': sucursales})
 
-        # Verificar si usuario ya existe
+        # Verificar si usuario o correo ya existen
         usuarios = requests.get("http://localhost:8080/api/usuarios").json()
-        if any(u['nombreUsuario'] == request.POST['nombre_usuario'] for u in usuarios):
+        nombre_usuario = request.POST.get('nombre_usuario') or request.POST.get('nombreUsuario')
+        correo = request.POST.get('correo')
+
+        if any(u['nombreUsuario'] == nombre_usuario for u in usuarios):
             messages.error(request, "El nombre de usuario ya está registrado.")
-            return render(request, 'registro.html', {'sucursales': sucursales})
+            return render(request, request.resolver_match.view_name + '.html', {'sucursales': sucursales})
+            
+        if any(u['correo'] == correo for u in usuarios):
+            messages.error(request, "El correo electrónico ya está registrado por otro usuario.")
+            return render(request, request.resolver_match.view_name + '.html', {'sucursales': sucursales})
 
         # Encriptar contraseña
         contrasenia_encriptada = bcrypt.hashpw(
@@ -432,40 +605,73 @@ def registrar_cliente(request):
 
 
 
-'''def agregar_producto(request):
+def agregar_producto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         precio = request.POST.get('precio')
         imagen_url = request.POST.get('imagen_url')
-        
-        producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, imagen_url=imagen_url)
-        producto.save()
-        
-        return redirect('catalogo')
-    return render(request, 'catalogo.html', {'mensaje': 'Producto agregado correctamente.'}) 
-'''
 
-'''def producto_del(request, pk):
-    context = {}
+        # === NUEVA VALIDACIÓN: Verificar stock real (Mapeo Robusto) ===
+        try:
+            prods_api = obtener_productos()
+            prod_api = next((p for p in prods_api if p['nombre'] == nombre), None)
+            
+            if prod_api:
+                pid = prod_api.get('idProducto') or prod_api.get('id_producto') or prod_api.get('id')
+                
+                inv_res = requests.get('http://localhost:8080/api/inventario')
+                if inv_res.status_code == 200:
+                    inventarios = inv_res.json()
+                    stock_real = 0
+                    for item in inventarios:
+                        p_obj = item.get('producto', {})
+                        p_id = p_obj.get('idProducto') or p_obj.get('id_producto') or p_obj.get('id')
+                        
+                        if str(p_id) == str(pid):
+                            qty = item.get('stock') if item.get('stock') is not None else item.get('cantidad', 0)
+                            stock_real += qty
+                    
+                    if stock_real <= 0:
+                        messages.error(request, f"Lo sentimos, el producto {nombre} se ha quedado sin stock.")
+                        return redirect('catalogo')
+        except Exception:
+            pass 
+        # =============================================================
+
+        # Buscar si el producto ya existe en el carrito
+        producto_existente = Producto.objects.filter(nombre=nombre).first()
+
+        if producto_existente:
+            producto_existente.cantidad += 1
+            producto_existente.save()
+            messages.success(request, f"¡{nombre} (x{producto_existente.cantidad}) actualizado en el carrito!")
+        else:
+            producto = Producto(nombre=nombre, descripcion=descripcion, precio=precio, imagen_url=imagen_url, cantidad=1)
+            producto.save()
+            messages.success(request, f"¡{nombre} agregado al carrito!")
+
+        return redirect('catalogo')
+    return redirect('catalogo')
+def producto_del(request, pk):
     try:
         producto = Producto.objects.get(id=pk)
-        producto.delete()
-
-        mensaje = "Producto eliminado correctamente"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
+        nombre = producto.nombre
+        
+        if producto.cantidad > 1:
+            producto.cantidad -= 1
+            producto.save()
+            messages.success(request, f"Se quitó una unidad de {nombre}. Quedan x{producto.cantidad}.")
+        else:
+            producto.delete()
+            messages.success(request, f"Producto {nombre} eliminado del carrito.")
+            
     except Producto.DoesNotExist:
-        mensaje = "El producto no existe"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
+        messages.error(request, "El producto no existe.")
     except Exception as e:
-        mensaje = f"Error al eliminar el producto: {str(e)}"
-        productos = Producto.objects.all()
-        context = {'productos': productos, 'mensaje': mensaje}
+        messages.error(request, f"Error al eliminar el producto: {str(e)}")
 
-    return render(request, 'carrito.html', context)
-'''
+    return redirect('carrito')
 
 
 

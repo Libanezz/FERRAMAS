@@ -33,6 +33,16 @@
 <div class="container">
   <h1 class="mt-4">Tus Productos</h1>
   
+  {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 
   <div class="row">
     <!-- Lista de productos -->
@@ -44,8 +54,8 @@
               <li class="list-group-item">
                 <div class="row">
                   <div class="col-md-8">
-                    <strong>Nombre:</strong> {{ producto.nombre }}<br>
-                    <strong>Precio:</strong> <span class="price" data-base="{{ producto.precio }}">{{ producto.precio|floatformat:0|intcomma   }}</span><br>
+                    <strong>Nombre:</strong> {{ producto.nombre }} <span class="badge bg-secondary">x{{ producto.cantidad }}</span><br>
+                    <strong>Precio unitario:</strong> <span class="price" data-base="{{ producto.precio }}">{{ producto.precio|floatformat:0|intcomma }}</span><br>
                     <strong>Descripción:</strong> {{ producto.descripcion }}<br>
                   </div>
                   <div class="col-md-4 text-end">
@@ -68,10 +78,10 @@
     <div class="card-header bg-dark text-white">Resumen de Compra</div>
     <div class="card-body">
       {% if productos %}
-        <p>Subtotal: ${{ subtotal }}</p>
-        <p>Envío: ${{ envio }}</p>
+        <p>Subtotal: ${{ subtotal|intcomma }}</p>
+        <p>Envío: ${{ envio|intcomma }}</p>
         <hr>
-        <h5>Total: ${{ total }}</h5>
+        <h5>Total: $<span id="total-monto">{{ total|intcomma }}</span></h5>
 
         <!-- Método de entrega -->
         <div class="mt-3">
