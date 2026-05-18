@@ -1,3 +1,28 @@
 <footer class="bg-dark text-white text-center py-3 mt-auto">
   <small>&copy; 2025 FERREMAS. Todos los derechos reservados.</small>
 </footer>
+
+<script>
+  // Esperar a que la página y sus recursos (como Bootstrap) carguen completamente
+  window.addEventListener('load', function() {
+    // Configurar un temporizador de 2 segundos (2000ms)
+    setTimeout(function() {
+      // Seleccionar solo las alertas temporales (que tienen las clases 'fade' y 'show')
+      const alerts = document.querySelectorAll('.alert.fade.show');
+      alerts.forEach(function(alert) {
+        // Intentar usar la API de Bootstrap para cerrar la alerta con animación
+        if (typeof bootstrap !== 'undefined' && bootstrap.Alert) {
+          const bsAlert = new bootstrap.Alert(alert);
+          bsAlert.close();
+        } else {
+          // Fallback manual si Bootstrap no está disponible: ocultar y remover
+          alert.style.opacity = '0';
+          alert.style.transition = 'opacity 0.5s ease';
+          setTimeout(function() {
+            alert.remove();
+          }, 500);
+        }
+      });
+    }, 2000);
+  });
+</script>
