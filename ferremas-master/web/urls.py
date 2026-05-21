@@ -16,6 +16,7 @@ urlpatterns =[
     path('contador/', views. contador, name='contador'),
     path('administrador/', views. administrador, name='administrador'),
     path('bodeguero/', views. bodeguero, name='bodeguero'),
+    path('bodeguero/actualizar-stock/', views.actualizar_stock, name='actualizar_stock'),
     path('mis-pedidos/', views.mis_pedidos, name='mis_pedidos'),
     path('logout/', views.logout, name='logout'),
     path('cambiar-password/', views.cambiar_password, name='cambiar_password'),

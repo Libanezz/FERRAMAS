@@ -165,7 +165,9 @@ def crear_usuario(request):
             "telefono": request.POST.get('telefono'),
             "nombreUsuario": request.POST.get('nombreUsuario'),
             "tipoUsuario": request.POST.get('tipoUsuario'),
-            "idSucursal": request.POST.get('idSucursal'),
+            "sucursal": {
+                "idSucursal": int(request.POST.get('idSucursal'))
+            },
             "cambioPassword": False
         }
 
@@ -201,7 +203,7 @@ def crear_usuario(request):
         # Enviar al backend (ajustá la URL si cambia)
         try:
             response = requests.post('http://localhost:8080/api/usuarios', json=datos)
-            if response.status_code == 201:
+            if response.status_code in [200, 201]:
                 messages.success(request, "Usuario creado correctamente.")
                 return redirect('listar_usuarios')
             else:
@@ -264,7 +266,9 @@ def editar_usuario(request, id_usuario):
             "telefono": request.POST.get("telefono"),
             "nombreUsuario": request.POST.get("nombreUsuario"),
             "tipoUsuario": request.POST.get("tipoUsuario"),
-            "idSucursal": request.POST.get("idSucursal"),
+            "sucursal": {
+                "idSucursal": int(request.POST.get("idSucursal"))
+            },
             "cambioPassword": usuario.get("cambioPassword", False),  # mantener estado
             "contrasenia": usuario["contrasenia"]  # no se modifica desde acá
         }
@@ -319,7 +323,60 @@ def bodeguero(request):
     if request.session.get("tipoUsuario") != "bodeguero":
         messages.error(request, "Acceso denegado.")
         return redirect('login')
-    return render(request, 'bodeguero.html')
+
+    pedidos_pendientes = []
+    inventario_alerta = []
+    
+    try:
+        # 1. Obtener alertas de stock (Menos de 4 unidades)
+        res_inv = requests.get('http://localhost:8080/api/inventario')
+        if res_inv.status_code == 200:
+            todo_el_inventario = res_inv.json()
+            inventario_alerta = [item for item in todo_el_inventario if item.get('stock', 0) < 4]
+            
+        # 2. Obtener pedidos pendientes para bodega (Aprobados por el vendedor)
+        res_ped = requests.get('http://localhost:8080/api/pedidos')
+        if res_ped.status_code == 200:
+            todos = res_ped.json()
+            pedidos_pendientes = [p for p in todos if p.get('estado') == 'aprobado']
+            
+    except Exception as e:
+        messages.warning(request, f"Error al cargar datos de bodega: {str(e)}")
+
+    context = {
+        'pedidos_pendientes': pedidos_pendientes,
+        'inventario_alerta': inventario_alerta
+    }
+    return render(request, 'bodeguero.html', context)
+
+def actualizar_stock(request):
+    if request.session.get("tipoUsuario") != "bodeguero":
+        messages.error(request, "Acceso denegado.")
+        return redirect('login')
+
+    if request.method == 'POST':
+        id_inventario = request.POST.get('id_inventario')
+        nuevo_stock = request.POST.get('nuevo_stock')
+        nombre_completo = request.session.get('nombreCompleto') or request.session.get('nombreUsuario')
+
+        try:
+            res_get = requests.get(f'http://localhost:8080/api/inventario/{id_inventario}')
+            if res_get.status_code == 200:
+                inv = res_get.json()
+                inv['stock'] = int(nuevo_stock)
+                inv['ultimaActualizacionPor'] = nombre_completo
+                
+                res_put = requests.put(f'http://localhost:8080/api/inventario/{id_inventario}', json=inv)
+                if res_put.status_code in [200, 201]:
+                    messages.success(request, f"Stock actualizado por {nombre_completo}.")
+                else:
+                    messages.error(request, "Error al actualizar en la API.")
+            else:
+                messages.error(request, "Registro no encontrado.")
+        except Exception as e:
+            messages.error(request, f"Error: {str(e)}")
+
+    return redirect('bodeguero')
 
 
 def home(request): 
@@ -344,45 +401,22 @@ def login(request):
             for usuario in usuarios:
                 if usuario['nombreUsuario'] == nombre_usuario:
                     contrasena_guardada = usuario['contrasenia']
-                    tipo = usuario['tipoUsuario']
-
-                    # === Lógica diferenciada por rol ===
-                    if tipo == 'administrador':
-                        # Intentar con bcrypt, si falla o no es un hash válido, probar texto plano
-                        try:
-                            if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
-                                return iniciar_sesion(request, usuario)
-                        except (ValueError, TypeError):
-                            pass
-                        
+                    
+                    # Intentar verificar con bcrypt
+                    autenticado = False
+                    try:
+                        if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
+                            autenticado = True
+                    except (ValueError, TypeError):
+                        # Fallback a texto plano si no es un hash válido
                         if contrasena_ingresada == contrasena_guardada:
-                            return iniciar_sesion(request, usuario)
-                        
+                            autenticado = True
+                    
+                    if autenticado:
+                        return iniciar_sesion(request, usuario)
+                    else:
                         messages.error(request, "Contraseña incorrecta.")
                         return redirect('login')
-
-
-                    elif tipo == 'cliente':
-                        # Intentar con bcrypt, fallback a texto plano
-                        try:
-                            if bcrypt.checkpw(contrasena_ingresada.encode(), contrasena_guardada.encode()):
-                                return iniciar_sesion(request, usuario)
-                        except (ValueError, TypeError):
-                            pass
-
-                        if contrasena_ingresada == contrasena_guardada:
-                            return iniciar_sesion(request, usuario)
-
-                        messages.error(request, "Contraseña incorrecta.")
-                        return redirect('login')
-
-                    elif tipo in ['vendedor', 'bodeguero', 'contador']:
-                        # Contraseña en texto plano (por ahora)
-                        if contrasena_ingresada == contrasena_guardada:
-                            return iniciar_sesion(request, usuario)
-                        else:
-                            messages.error(request, "Contraseña incorrecta.")
-                            return redirect('login')
 
             messages.error(request, "Usuario no encontrado.")
             return redirect('login')
@@ -398,6 +432,7 @@ def login(request):
 def iniciar_sesion(request, usuario):
     request.session['idUsuario'] = usuario['idUsuario']
     request.session['nombreUsuario'] = usuario['nombreUsuario']
+    request.session['nombreCompleto'] = usuario.get('nombre') or usuario.get('nombreUsuario')
     request.session['tipoUsuario'] = usuario['tipoUsuario']
 
     # Forzamos cambio de contraseña si es admin y no la ha cambiado

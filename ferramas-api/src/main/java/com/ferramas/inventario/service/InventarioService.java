@@ -49,6 +49,7 @@ public class InventarioService {
             inv.setProducto(datos.getProducto());
             inv.setSucursal(datos.getSucursal());
             inv.setStock(datos.getStock());
+            inv.setUltimaActualizacionPor(datos.getUltimaActualizacionPor());
 
             Inventario actualizado = inventarioRepository.save(inv);
 

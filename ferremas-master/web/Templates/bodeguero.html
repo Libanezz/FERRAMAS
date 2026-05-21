@@ -12,19 +12,90 @@
 <body class="bg-light">
 {% include 'partials/navbar.html' %}
 
-<div class="container py-5">
-  <h2 class="mb-4">Pedidos por preparar</h2>
+<!-- Mensajes emergentes -->
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
-  <div class="card border-info">
-    <div class="card-body">
-      {% for pedido in pedidos_pendientes %}
-        <div class="d-flex justify-content-between border-bottom py-2">
-          <span>Pedido #{{ pedido.id }} - {{ pedido.producto }} (Cliente: {{ pedido.cliente }})</span>
-          <span class="badge bg-warning text-dark">Pendiente</span>
+<div class="container py-5">
+  <div class="row">
+    <!-- Alertas de Stock -->
+    <div class="col-md-7">
+      <h3 class="mb-4 text-danger"><i class="bi bi-exclamation-triangle-fill"></i> Alertas de Stock Bajo</h3>
+      {% if inventario_alerta %}
+        <div class="row g-3">
+          {% for item in inventario_alerta %}
+            <div class="col-12">
+              <div class="card border-danger shadow-sm h-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="{{ item.producto.urlImagen }}" alt="{{ item.producto.nombre }}" style="width: 80px; height: 80px; object-fit: contain;" class="rounded border">
+                    <div class="flex-grow-1">
+                      <h5 class="card-title mb-1">{{ item.producto.nombre }}</h5>
+                      <p class="text-muted small mb-2">{{ item.sucursal.nombre }} - {{ item.sucursal.comuna }}</p>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge {% if item.stock <= 0 %}bg-danger{% else %}bg-warning text-dark{% endif %} fs-6">
+                          Stock actual: {{ item.stock }}
+                        </span>
+                        {% if item.ultimaActualizacionPor %}
+                          <small class="text-muted">Última act. por: <strong>{{ item.ultimaActualizacionPor }}</strong></small>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <hr>
+                  
+                  <form action="{% url 'actualizar_stock' %}" method="POST" class="row g-2 align-items-center">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_inventario" value="{{ item.idInventario }}">
+                    <div class="col-auto">
+                      <label class="col-form-label fw-bold">Agregar stock:</label>
+                    </div>
+                    <div class="col-auto">
+                      <input type="number" name="nuevo_stock" class="form-control form-control-sm" value="{{ item.stock }}" min="0" required>
+                    </div>
+                    <div class="col-auto">
+                      <button type="submit" class="btn btn-sm btn-success">Actualizar</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
         </div>
-      {% empty %}
-        <p>No hay pedidos pendientes en bodega.</p>
-      {% endfor %}
+      {% else %}
+        <div class="alert alert-success">
+          <i class="bi bi-check-circle-fill me-2"></i>Todo el stock está en niveles óptimos.
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Pedidos Pendientes -->
+    <div class="col-md-5">
+      <h3 class="mb-4 text-primary"><i class="bi bi-box-seam"></i> Pedidos por Preparar</h3>
+      <div class="card border-info shadow-sm">
+        <div class="card-body">
+          {% for pedido in pedidos_pendientes %}
+            <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+              <div>
+                <span class="fw-bold d-block">Pedido #{{ pedido.idPedido }}</span>
+                <small class="text-muted">Cliente: {{ pedido.usuario.nombre }}</small>
+              </div>
+              <span class="badge bg-primary">Aprobado</span>
+            </div>
+          {% empty %}
+            <p class="text-center text-muted py-4">No hay pedidos aprobados pendientes en bodega.</p>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

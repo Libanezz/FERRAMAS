@@ -25,13 +25,17 @@ public class Inventario {
     @Column(name = "stock")
     private Integer stock;
 
+    @Column(name = "ultima_actualizacion_por")
+    private String ultimaActualizacionPor;
+
     public Inventario() {}
 
-    public Inventario(Long idInventario, Producto producto, Sucursal sucursal, Integer stock) {
+    public Inventario(Long idInventario, Producto producto, Sucursal sucursal, Integer stock, String ultimaActualizacionPor) {
         this.idInventario = idInventario;
         this.producto = producto;
         this.sucursal = sucursal;
         this.stock = stock;
+        this.ultimaActualizacionPor = ultimaActualizacionPor;
     }
 
     public Long getIdInventario() { return idInventario; }
@@ -45,4 +49,7 @@ public class Inventario {
 
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
+
+    public String getUltimaActualizacionPor() { return ultimaActualizacionPor; }
+    public void setUltimaActualizacionPor(String ultimaActualizacionPor) { this.ultimaActualizacionPor = ultimaActualizacionPor; }
 }
